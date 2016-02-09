@@ -1,12 +1,14 @@
+/* global Base64 */
+/* global LZString */
 (function () {
     angular.module('app').controller('MainController', MainController);
 
-    MainController.$inject = ['$scope', '$window',
+    MainController.$inject = ['$scope', '$window', '$timeout',
         'ConfigurationService',
         'HouseService', 'TrackService', 'TrackTokenService',
         'GarrisonsService', 'OrdersService', 'UnitsService', 'TracksService', 'PTsService', 'CardsService', 'MarkersService'];
 
-    function MainController($scope, $window,
+    function MainController($scope, $window, $timeout,
         Configuration,
         House, Track, TrackToken,
         Garrisons, Orders, Units, Tracks, PTs, Cards, Markers) {
@@ -142,18 +144,29 @@
             } else {
                 vm.wildlingPower = 0;
             }
+            updateHash();
         }
 
         function increaseRound() {
             if (vm.round < 10) {
                 vm.round++;
+                updateHash();
             }
         }
 
         function updateHash() {
+            if (vm.updateHashPromise)
+                $timeout.cancel(vm.updateHashPromise);
+            vm.updateHashPromise = $timeout(doUpdateHash, 1000);
+        }
+        
+        function doUpdateHash() {
             var hash = Base64.urlSafeEncode(LZString.compress(JSON.stringify(Configuration.getConfFromVM(vm))));
             location.hash = hash;
             setShortLink(location.href);
+            
+            // clean the promise reference
+            vm.updateHashPromise = null;
         }
 
         function setShortLink(href) {
