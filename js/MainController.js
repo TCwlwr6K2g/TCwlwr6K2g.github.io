@@ -83,6 +83,13 @@
                         house.setCardImages(Cards.parse(house.cardsImages));
                         updateHash();
                     });
+                    
+                $scope.$watch(
+                    function () { return house.cardsTracking; },
+                    function () {
+                        console.log('cardsTracking');
+                        updateHash();
+                    }, true);
             });
 
             angular.forEach(vm.tracks, function (track) {
