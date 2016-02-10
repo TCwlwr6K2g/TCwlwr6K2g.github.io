@@ -431,7 +431,7 @@
                 crown: 1,
                 castle: 0,
                 stronghold: 0,
-                barrel: 2
+                barrel: 1
             },
             'yronwood': {
                 name: 'Yronwood',
