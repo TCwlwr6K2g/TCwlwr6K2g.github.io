@@ -11,6 +11,7 @@
                 this.ownedPowerTokens = 5;
                 this.maxPowerTokens = 20;
 
+                this.units = [];
                 this.unitsText = null;
 
                 this.handledOrders = [];
@@ -38,10 +39,10 @@
 
             House.prototype.setUnits = function (units) {
                 var house = this;
-                house.handledUnits = [];
+                house.units = [];
 
                 angular.forEach(units, function (unit) {
-                    house.handledUnits.push(unit.unit.toLowerCase() + '-' + house._name + ' pos-' + unit.area + ' unit');
+                    house.units.push({area: unit.area, unit: unit.unit.toLowerCase()});
                 });
             };
 
