@@ -221,7 +221,8 @@
             vm.shortLink = 'http://tinyurl.com/' + str;
         }
         
-        vm.cleanRaids = cleanRaids; 
+        vm.cleanRaids = cleanRaids;
+        vm.cleanCombat = cleanCombat;
         vm.resolveCPs = resolveCPs;
         
         function resolveCPs() {
@@ -302,6 +303,22 @@
         function cleanOrdersByHouse(orders, orderToRemove) {
             angular.forEach(_.filter(orders, function(token) { return token.order == orderToRemove }), function (token) {
                token.order = ''; 
+            });
+        }
+        
+        function cleanCombat() {
+            angular.forEach(vm.houses, function(house) {
+                orders = house.orders;
+                
+                cleanOrdersByHouse(orders, 'march-0');
+                cleanOrdersByHouse(orders, 'march-1');
+                cleanOrdersByHouse(orders, 'march-2');
+                cleanOrdersByHouse(orders, 'support-1');
+                cleanOrdersByHouse(orders, 'support-2');
+                cleanOrdersByHouse(orders, 'defend-1');
+                cleanOrdersByHouse(orders, 'defend-2');
+                
+                house.ordersText = Orders.toText(orders);
             });
         }
     }
