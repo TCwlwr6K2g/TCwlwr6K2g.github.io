@@ -391,7 +391,7 @@
                 summary[house._name] = houseSupplies;
             });
             
-            if (confirm('This are the new Supply Points:\n' + vpSummaryToString(summary) + '\nDo you wish to update the track?')) {
+            if (confirm('This are the new Supply Points:\n' + spSummaryToString(summary) + '\nDo you wish to update the track?')) {
                 vm.supplyText = Markers.toText(summary);
             }
         }
@@ -410,6 +410,16 @@
             }  
                             
             return supplyPoints;
+        }
+        
+        function spSummaryToString(summary) {
+            return _.reduce(summary, function(text, count, houseName) {
+                var house = vm.houses[houseName];
+                
+                var previousSP = vm.supply[houseName];
+                
+                return text + house.name + ' from ' + previousSP + ' -> ' + count + '\n';
+            }, '');
         }
     }
 
