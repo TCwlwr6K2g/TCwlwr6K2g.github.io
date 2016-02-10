@@ -45,7 +45,7 @@
             <li>
                 <label for="togglePowertokens">Show/Hide Powertokens on Board</label>
             </li>
-            <li id="shortLink"><a ng-href="{{vm.shortLink}}" target="_blank">{{vm.shortLink}}</a></li>
+            <li id="shortLink"><a ng-href="{{vm.shortLink}}" target="_blank" class="cursor-only">{{vm.shortLink}}</a></li>
         </ul>
 
         <ul class="nav">
@@ -135,9 +135,8 @@
     <!-- Should be inside div.board -->
 
     <div class="board">
-        <div class="tokenCounts-{{key}} powertoken-{{key}}" ng-repeat="(key, house) in vm.houses">
-            <div class="availablePowertokens" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div>
-            <div class="leftPowertokens" ng-click="house.gainPowerToken()" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
+        <div class="tokenCounts-{{key}} powertoken-{{key}} noselect" ng-repeat="(key, house) in vm.houses">
+            <div class="availablePowertokens noselect" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div><div class="leftPowertokens noselect" ng-click="house.gainPowerToken()" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
         </div>
         <div ng-repeat="(key, track) in vm.tracks">
             <div ng-repeat="(index, house) in track.positions track by $index">
