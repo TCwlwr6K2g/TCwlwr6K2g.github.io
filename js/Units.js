@@ -19,11 +19,14 @@
                 angular.forEach(unitsPerAreaArray, function (unitsPerArea) {
                     var valueSplitted = unitsPerArea.split(': ');
                     var area = valueSplitted[0].toLowerCase().replace(/ - port$/, '-harbor').replace(/([' ]|^the )/g, '');
-                    var units = valueSplitted[1].split(', ');
+                    
+                    if (valueSplitted[1] && valueSplitted[1].trim().length > 0) {                     
+                        var units = valueSplitted[1].split(', ');
 
-                    angular.forEach(units, function (unit) {
-                        houseUnits.push({ unit: unit, area: area });
-                    });
+                        angular.forEach(units, function (unit) {
+                            houseUnits.push({ unit: unit, area: area });
+                        });
+                    }
                 });
 
                 return houseUnits;
