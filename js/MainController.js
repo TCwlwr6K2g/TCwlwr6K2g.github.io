@@ -87,9 +87,14 @@
                 $scope.$watch(
                     function () { return house.cardsTracking; },
                     function () {
-                        console.log('cardsTracking');
                         updateHash();
                     }, true);
+                    
+                $scope.$watch(
+                    function () { return house.ownedPowerTokens; },
+                    function () {
+                        updateHash();
+                    });
             });
 
             angular.forEach(vm.tracks, function (track) {
@@ -102,13 +107,6 @@
             });
 
             $scope.$watch(
-                function () { return vm.garrisonsText; },
-                function () {
-                    vm.garrisons = Garrisons.parse(vm.garrisonsText);
-                    updateHash();
-                });
-
-            $scope.$watch(
                 function () { return vm.supplyText; },
                 function () {
                     vm.supply = Markers.parse(vm.supplyText);
@@ -119,6 +117,37 @@
                 function () { return vm.victoryText; },
                 function () {
                     vm.victory = Markers.parse(vm.victoryText);
+                    updateHash();
+                });
+                
+            $scope.$watch(
+                function () { return vm.garrisonsText; },
+                function () {
+                    vm.garrisons = Garrisons.parse(vm.garrisonsText);
+                    updateHash();
+                });
+                
+            $scope.$watch(
+                function () { return vm.wildlingPower; },
+                function () {
+                    updateHash();
+                });
+                
+            $scope.$watch(
+                function () { return vm.round; },
+                function () {
+                    updateHash();
+                });
+                
+            $scope.$watch(
+                function () { return vm.trackTokens.vsb.isUsed; },
+                function () {
+                    updateHash();
+                });
+                
+            $scope.$watch(
+                function () { return vm.trackTokens.raven.isUsed; },
+                function () {
                     updateHash();
                 });
         }
@@ -151,13 +180,11 @@
             } else {
                 vm.wildlingPower = 0;
             }
-            updateHash();
         }
 
         function increaseRound() {
             if (vm.round < 10) {
                 vm.round++;
-                updateHash();
             }
         }
 

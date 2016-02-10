@@ -7,7 +7,6 @@
                 this._name = name.toLowerCase();
                 this.name = name;
 
-                this.usedPowertokens = 0;
                 this.ownedPowerTokens = 5;
                 this.maxPowerTokens = 20;
 
