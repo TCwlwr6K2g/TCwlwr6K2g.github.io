@@ -224,6 +224,7 @@
         vm.cleanRaids = cleanRaids;
         vm.cleanCombat = cleanCombat;
         vm.resolveCPs = resolveCPs;
+        vm.cleanCPs = cleanCPs;
         
         function resolveCPs() {
             // see each area that has CP order
@@ -317,6 +318,16 @@
                 cleanOrdersByHouse(orders, 'support-2');
                 cleanOrdersByHouse(orders, 'defend-1');
                 cleanOrdersByHouse(orders, 'defend-2');
+                
+                house.ordersText = Orders.toText(orders);
+            });
+        }
+        
+        function cleanCPs() {
+            angular.forEach(vm.houses, function(house) {
+                orders = house.orders;
+
+                cleanOrdersByHouse(orders, 'power-1');
                 
                 house.ordersText = Orders.toText(orders);
             });
