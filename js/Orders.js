@@ -1,7 +1,24 @@
 (function () {
     angular.module('app').factory('OrdersService', OrdersService);
 
-    function OrdersService() {
+    OrdersService.$inject = ['MapService']
+
+    function OrdersService(Map) {
+        
+        var orderNames = {
+            'power-1': 'CP',
+            'power-2': 'CP*',
+            'march-0': 'M-1',
+            'march-1': 'M+0',
+            'march-2': 'M+1',
+            'raid-1': 'R',
+            'raid-2': 'R*',
+            'defend-1': 'D',
+            'defend-2': 'D+2',
+            'support-1': 'S',
+            'support-2': 'S*'
+        };
+        
         return {
             parse: function (text) {
                 if (!text)
@@ -33,6 +50,15 @@
                 });
 
                 return orders;
+            },
+            toText: function(orders) {
+                if (!orders || orders.length == 0)
+                    return '';
+                
+                return _.reduce(orders, function(text, token) {
+                    var area = Map[token.area];
+                    return text + area.name + ': ' + orderNames[token.order] +  '\n';
+                }, '');
             }
         };
     }
