@@ -57,7 +57,7 @@
                 
                 return _.reduce(orders, function(text, token) {
                     var area = Map[token.area];
-                    return text + area.name + ': ' + orderNames[token.order] +  '\n';
+                    return text + area.name + ': ' + (token.order ? orderNames[token.order] : '') +  '\n';
                 }, '');
             }
         };
