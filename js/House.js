@@ -3,9 +3,10 @@
 
     function HouseService() {
         return (function () {
-            function House(name) {
+            function House(name, capital) {
                 this._name = name.toLowerCase();
                 this.name = name;
+                this.capital = capital;
 
                 this.ownedPowerTokens = 5;
                 this.maxPowerTokens = 20;
@@ -16,7 +17,9 @@
                 this.orders = [];
                 this.ordersText = null;
 
+                this.consolidatedAreas = [];
                 this.ptsText = null;
+                
                 this.cardsImages = null;
                 this.cardsTracking = null;
             }
@@ -54,12 +57,7 @@
             };
 
             House.prototype.setPTs = function (areas) {
-                var house = this;
-                house.handledPTs = [];
-
-                angular.forEach(areas, function (area) {
-                    house.handledPTs.push('powertoken-' + house._name + ' pos-' + area);
-                });
+                this.consolidatedAreas = areas;
             }
             
             House.prototype.setCardImages = function (cards) {

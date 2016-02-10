@@ -7,7 +7,7 @@
                 if (!text)
                     return;
 
-                var supply = [];
+                var markers = {};
 
                 var value = text.split('\n');
 
@@ -16,10 +16,18 @@
                     var house = valueSplitted[0].replace(/ - port$/, '-harbor').replace(/([' ]|^the )/g, '');
                     var count = valueSplitted[1];
 
-                    supply.push({ house: house, count: parseInt(count) });
+                    markers[house] = parseInt(count);
                 }
 
-                return supply;
+                return markers;
+            },
+            toText: function (markers) {
+                if (!markers || markers.length == 0)
+                    return '';
+                
+                return _.reduce(markers, function(text, count, house) {
+                    return text + house + ': ' +count +  '\n';
+                }, '');
             }
         };
     }

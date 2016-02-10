@@ -33,12 +33,12 @@
 
         function initialize() {
             vm.houses = {
-                baratheon: new House('Baratheon'),
-                greyjoy: new House('Greyjoy'),
-                lannister: new House('Lannister'),
-                martell: new House('Martell'),
-                stark: new House('Stark'),
-                tyrell: new House('Tyrell'),
+                baratheon: new House('Baratheon', 'dragonstone'),
+                greyjoy: new House('Greyjoy', 'pyke'),
+                lannister: new House('Lannister', 'lannisport'),
+                martell: new House('Martell', 'sunspear'),
+                stark: new House('Stark', 'winterfell'),
+                tyrell: new House('Tyrell', 'highgarden'),
             };
 
             vm.trackTokens = {
@@ -225,11 +225,9 @@
         vm.cleanCombat = cleanCombat;
         vm.resolveCPs = resolveCPs;
         vm.cleanCPs = cleanCPs;
+        vm.updateVictory = updateVictory;
         
         function resolveCPs() {
-            // see each area that has CP order
-            // the amount gained by each player is 1 for a CP + number or crowns
-            
             var summary = {};
             
             angular.forEach(vm.houses, function(house) {
@@ -331,6 +329,57 @@
                 
                 house.ordersText = Orders.toText(orders);
             });
+        }
+        
+        function updateVictory() {
+            var summary = {};
+            
+            angular.forEach(vm.houses, function(house) {
+                var houseVPs = countVictoryPointByHouse(house);
+                summary[house._name] = houseVPs;
+            });
+            
+            if (confirm('This are the new Victory Points:\n' + vpSummaryToString(summary) + '\nDo you wish to update the track?')) {
+                vm.victoryText = Markers.toText(summary);
+            }
+        }
+        
+        function countVictoryPointByHouse(house) {
+            var uniqAreas = _.union(_.map(house.units, 'area'), house.consolidatedAreas);
+            
+            var areasVps = _.reduce(uniqAreas, function(vps, areaName) {
+                                var area = Map[areaName];
+                                var areaGrantVP = area.castle > 0 || area.stronghold > 0;
+                                return vps + (areaGrantVP ? 1 : 0);
+                            }, 0);
+                            
+            if (isAreaEmpty(house.capital)) {
+                areasVps += 1;
+            }        
+                            
+            return areasVps;
+        }
+        
+        function isAreaEmpty(areaName) {
+            return _.chain(vm.houses)
+                    .map(function(house) { 
+                        return house.units;
+                    })
+                    .flatten()
+                    .filter(function(unit) {
+                        return unit.area == areaName
+                    })
+                    .value().length == 0;
+        }
+        
+        function vpSummaryToString(summary) {
+            return _.reduce(summary, function(text, vps, houseName) {
+                var house = vm.houses[houseName];
+                
+                var previousVP = vm.victory[houseName];
+                
+                return text + house.name + ' from ' + previousVP + ' -> ' + vps + '\n';
+            }, '');
         }
     }
 

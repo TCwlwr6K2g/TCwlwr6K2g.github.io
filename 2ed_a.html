@@ -68,6 +68,7 @@
             <button ng-click="vm.cleanCombat()">Clean Combat</button>
             <button ng-click="vm.resolveCPs()">Resolve CPs</button>
             <button ng-click="vm.cleanCPs()">Clean CPs</button>
+            <button ng-click="vm.updateVictory()">Update Victory Track</button>
         </div>
 
         <input type="radio" name="navContentControl" id="tracks" />
@@ -165,15 +166,15 @@
         <div class="wildlingmarker pos-wilding-{{vm.wildlingPower}}" ng-click="vm.increaseWildlingPower()"></div>
         <div class="round pos-round-{{vm.round}}" ng-click="vm.increaseRound()"></div>
 
-        <div class="supply-{{marker.house}} pos-supply-{{marker.count}}" ng-repeat="marker in vm.supply"></div>
-        <div class="victory-{{marker.house}} pos-victory-{{marker.count}}" ng-repeat="marker in vm.victory"></div>
+        <div class="supply-{{houseName}} pos-supply-{{count}}" ng-repeat="(houseName, count) in vm.supply"></div>
+        <div class="victory-{{houseName}} pos-victory-{{count}}" ng-repeat="(houseName, count) in vm.victory"></div>
 
         <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}" ng-repeat="(key, house) in vm.houses">
             <div class="{{unit.unit}}-{{house._name}} pos-{{unit.area}} unit" ng-repeat="unit in house.units track by $index">
             </div>
             <div class="order-{{order.order}} pos-{{order.area}}" ng-repeat="order in house.orders track by $index">
             </div>
-            <div class="{{area}}" ng-repeat="area in house.handledPTs track by $index">
+            <div class="powertoken-{{house._name}} pos-{{area}}" ng-repeat="area in house.consolidatedAreas track by $index">
             </div>
         </div>
 
