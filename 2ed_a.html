@@ -146,8 +146,8 @@
         </div>
         
         <input type="checkbox" id="toggleUnits" ng-model="vm.showUnits" />
-        <input type="checkbox" id="toggleOrders" ng-checked="vm.showOrders" />
-        <input type="checkbox" id="togglePowertokens" ng-checked="vm.showPowerTokens" />
+        <input type="checkbox" id="toggleOrders" ng-model="vm.showOrders" />
+        <input type="checkbox" id="togglePowertokens" ng-model="vm.showPowerTokens" />
 
         <div class="wildlingmarker pos-wilding-{{vm.wildlingPower}}" ng-click="vm.increaseWildlingPower()"></div>
         <div class="round pos-round-{{vm.round}}" ng-click="vm.increaseRound()"></div>
@@ -155,8 +155,8 @@
         <div class="supply-{{marker.house}} pos-supply-{{marker.count}}" ng-repeat="marker in vm.supply"></div>
         <div class="victory-{{marker.house}} pos-victory-{{marker.count}}" ng-repeat="marker in vm.victory"></div>
 
-        <div ng-repeat="(key, house) in vm.houses">
-            <div class="{{unit}}" ng-repeat="unit in house.handledUnits track by $index">
+        <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}" ng-repeat="(key, house) in vm.houses">
+            <div class="{{unit.unit}}-{{house._name}} pos-{{unit.area}} unit" ng-repeat="unit in house.units track by $index">
             </div>
             <div class="{{order}}" ng-repeat="order in house.handledOrders track by $index">
             </div>
