@@ -151,7 +151,7 @@
 
     <div class="board">
         <div class="tokenCounts-{{key}} powertoken-{{key}} noselect" ng-repeat="(key, house) in vm.houses">
-            <div class="availablePowertokens noselect" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div><div class="leftPowertokens noselect" ng-click="house.gainPowerToken()" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
+            <div class="availablePowertokens noselect" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div><div class="leftPowertokens noselect" ng-click="house.gainPowerToken(1)" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
         </div>
         <div ng-repeat="(key, track) in vm.tracks">
             <div ng-repeat="(index, house) in track.positions track by $index">

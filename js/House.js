@@ -33,8 +33,9 @@
                 this.ownedPowerTokens--;
             };
             House.prototype.gainPowerToken = function (pts) {
-                pts = pts || 1;
-
+                if (pts <= 0)
+                    return;
+                    
                 this.ownedPowerTokens = Math.min(this.maxPowerTokens, this.ownedPowerTokens + pts);
             };
 
