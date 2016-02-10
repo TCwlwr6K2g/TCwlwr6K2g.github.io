@@ -226,6 +226,7 @@
         vm.resolveCPs = resolveCPs;
         vm.cleanCPs = cleanCPs;
         vm.updateVictory = updateVictory;
+        vm.updateSupply = updateSupply;
         
         function resolveCPs() {
             var summary = {};
@@ -380,6 +381,35 @@
                 
                 return text + house.name + ' from ' + previousVP + ' -> ' + vps + '\n';
             }, '');
+        }
+        
+        function updateSupply() {
+            var summary = {};
+            
+            angular.forEach(vm.houses, function(house) {
+                var houseSupplies = countSupplyPointByHouse(house);
+                summary[house._name] = houseSupplies;
+            });
+            
+            if (confirm('This are the new Supply Points:\n' + vpSummaryToString(summary) + '\nDo you wish to update the track?')) {
+                vm.supplyText = Markers.toText(summary);
+            }
+        }
+        
+        function countSupplyPointByHouse(house) {
+            var uniqAreas = _.union(_.map(house.units, 'area'), house.consolidatedAreas);
+            
+            var supplyPoints = _.reduce(uniqAreas, function(count, areaName) {
+                                var area = Map[areaName];
+                                return count + area.barrel;
+                            }, 0);
+                            
+            if (isAreaEmpty(house.capital)) {
+                var capital = Map[house.capital];
+                supplyPoints += capital.barrel;
+            }  
+                            
+            return supplyPoints;
         }
     }
 
