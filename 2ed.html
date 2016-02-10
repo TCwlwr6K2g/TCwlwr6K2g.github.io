@@ -1,353 +1,192 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title> - jsFiddle demo</title>
-  
-  <link rel="stylesheet" type="text/css" href="main.css">
-  
-  <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.3.js'></script>
-  <script type="text/javascript" src="js/Base64.js"></script>
-  <script type='text/javascript' src="js/LZString.js"></script>
-  <script type='text/javascript' src="js/main.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>AGot 2ed - BETA</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="extension.css">
+
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+    <script type="text/javascript" src="js/Base64.js"></script>
+    <script type='text/javascript' src="js/LZString.js"></script>
+
+    <script type='text/javascript' src="js/app.js"></script>
+    
+    <script type='text/javascript' src="js/Map.js"></script>
+    <script type='text/javascript' src="js/Configuration.js"></script>
+    <script type='text/javascript' src="js/MainController.js"></script>
+
+    <script type='text/javascript' src="js/House.js"></script>
+    <script type='text/javascript' src="js/Track.js"></script>
+    <script type='text/javascript' src="js/TrackToken.js"></script>
+
+    <script type='text/javascript' src="js/Garrisons.js"></script>
+    <script type='text/javascript' src="js/Orders.js"></script>
+    <script type='text/javascript' src="js/Units.js"></script>
+    <script type='text/javascript' src="js/Tracks.js"></script>
+    <script type='text/javascript' src="js/PTs.js"></script>
+    <script type='text/javascript' src="js/Cards.js"></script>
+    <script type='text/javascript' src="js/Markers.js"></script>
 
 </head>
-<body>
-  <div class="controls">
-    <ul class="interfaceControls"
-        ><li><label for="toggleUnits">Show/Hide Units on Board</label></li
-        ><li><label for="toggleOrders">Show/Hide Orders on Board</label></li
-        ><li><label for="togglePowertokens">Show/Hide Powertokens on Board</label></li
-        ><li id="shortlink"></li
-    ></ul>
-    <ul class="nav"
-        ><li><label for="tracks">Influence Tracks/Supply/…</label></li
-        ><li><label for="baratheonStuff">Baratheon: Settings</label></li
-        ><li><label for="greyjoyStuff">Greyjoy: Settings</label></li
-        ><li><label for="lannisterStuff">Lannister: Settings</label></li
-        ><li><label for="martellStuff">Martell: Settings</label></li
-        ><li><label for="starkStuff">Stark: Settings</label></li
-        ><li><label for="tyrellStuff">Tyrell: Settings</label></li
-    ></ul>
-    <input type="radio" name="navContentControl" id="tracks"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Iron Throne Order:
-            <textarea name="ironThroneOrder">Baratheon
-Lannister
-Stark
-Martell
-Greyjoy
-Tyrell</textarea>
-        </label>
-        <label class="fullwidth">
-            Fiefdom Order:
-            <textarea name="fiefdomOrder">Greyjoy
-Tyrell
-Martell
-Stark
-Baratheon
-Lannister</textarea>
-        </label>
-        <label class="fullwidth">
-            King's Court Order:
-            <textarea name="kingsCourtOrder">Lannister
-Stark
-Martell
-Baratheon
-Tyrell
-Greyjoy</textarea>
-        </label>
-        <label class="fullwidth">
-            Supply:
-            <textarea name="supply">Baratheon: 2
-Greyjoy: 2
-Lannister: 2
-Martell: 2
-Stark: 1
-Tyrell: 2</textarea>
-        </label>
-        <label class="fullwidth">
-            Victory:
-            <textarea name="victory">Baratheon: 1
-Greyjoy: 1
-Lannister: 1
-Martell: 1
-Stark: 2
-Tyrell: 1</textarea>
-        </label>
-        <label class="fullwidth">
-            Garrisons:
-            <textarea name="garrisons">King's Landing: 5
-The Eyrie: 6
-Dragonstone: 2
-Winterfell: 2
-Lannisport: 2
-Highgarden: 2
-Sunspear: 2
-Pyke: 2</textarea>
-        </label>
-        <label class="fullwidth">
-            Wildlings: <input type="number" step="2" min="0" max="12" value="2" name="wildlings"/>
-        </label>
-        <label class="fullwidth">
-            Round: <input type="number" step="1" min="1" max="10" value="1" name="round"/>
-        </label>
-        <lable class="fullwidth">
-            Valyrian Steel Blade was used: <input type="checkbox" name="vsb-used" />
-        </label>
-        <lable class="fullwidth">
-            Raven was used: <input type="checkbox" name="raven-used" />
-        </label>
-        <label class="fullwidth">
-            Max Power Tokens:
-            <input name="maxPowertokens" type="number" step="1" value="20"/>
-        </label>
-        <label class="fullwidth">
-            Baratheons House Cards:
-            <textarea name="housecards-baratheon"></textarea>
-        </label>
-        <label class="fullwidth">
-            Greyjoys House Cards:
-            <textarea name="housecards-greyjoy"></textarea>
-        </label>
-        <label class="fullwidth">
-            Lannisters House Cards:
-            <textarea name="housecards-lannister"></textarea>
-        </label>
-        <label class="fullwidth">
-            Martells House Cards:
-            <textarea name="housecards-martell"></textarea>
-        </label>
-        <label class="fullwidth">
-            Starks House Cards:
-            <textarea name="housecards-stark"></textarea>
-        </label>
-        <label class="fullwidth">
-            Tyrells House Cards:
-            <textarea name="housecards-tyrell"></textarea>
-        </label>
-    </div>
-    <input type="radio" name="navContentControl" id="baratheonStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-baratheon">Dragonstone: Footman, Knight
-Kingswood: Footman
-Shipbreaker Bay: Ship, Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-baratheon"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-baratheon"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-baratheon" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-baratheon" id="housecard-0-baratheon" />
-		<label for="housecard-0-baratheon"></label>
-		<input type="checkbox" name="housecard-1-baratheon" id="housecard-1-baratheon" />
-		<label for="housecard-1-baratheon"></label>
-		<input type="checkbox" name="housecard-2-baratheon" id="housecard-2-baratheon" />
-		<label for="housecard-2-baratheon"></label>
-		<input type="checkbox" name="housecard-3-baratheon" id="housecard-3-baratheon" />
-		<label for="housecard-3-baratheon"></label>
-		<input type="checkbox" name="housecard-4-baratheon" id="housecard-4-baratheon" />
-		<label for="housecard-4-baratheon"></label>
-		<input type="checkbox" name="housecard-5-baratheon" id="housecard-5-baratheon" />
-		<label for="housecard-5-baratheon"></label>
-		<input type="checkbox" name="housecard-6-baratheon" id="housecard-6-baratheon" />
-		<label for="housecard-6-baratheon"></label>
-    </div>
-    <input type="radio" name="navContentControl" id="greyjoyStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-greyjoy">Pyke: Footman, Knight
-Greywater Watch: Footman
-Ironman's Bay: Ship
-Pyke - Port: Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-greyjoy"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-greyjoy"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-greyjoy" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-greyjoy" id="housecard-0-greyjoy" />
-		<label for="housecard-0-greyjoy"></label>
-		<input type="checkbox" name="housecard-1-greyjoy" id="housecard-1-greyjoy" />
-		<label for="housecard-1-greyjoy"></label>
-		<input type="checkbox" name="housecard-2-greyjoy" id="housecard-2-greyjoy" />
-		<label for="housecard-2-greyjoy"></label>
-		<input type="checkbox" name="housecard-3-greyjoy" id="housecard-3-greyjoy" />
-		<label for="housecard-3-greyjoy"></label>
-		<input type="checkbox" name="housecard-4-greyjoy" id="housecard-4-greyjoy" />
-		<label for="housecard-4-greyjoy"></label>
-		<input type="checkbox" name="housecard-5-greyjoy" id="housecard-5-greyjoy" />
-		<label for="housecard-5-greyjoy"></label>
-		<input type="checkbox" name="housecard-6-greyjoy" id="housecard-6-greyjoy" />
-		<label for="housecard-6-greyjoy"></label>
-    </div>
-    <input type="radio" name="navContentControl" id="lannisterStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-lannister">Lannisport: Footman, Knight
-Stoney Sept: Footman
-The Golden Sound: Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-lannister"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-lannister"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-lannister" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-lannister" id="housecard-0-lannister" />
-		<label for="housecard-0-lannister"></label>
-		<input type="checkbox" name="housecard-1-lannister" id="housecard-1-lannister" />
-		<label for="housecard-1-lannister"></label>
-		<input type="checkbox" name="housecard-2-lannister" id="housecard-2-lannister" />
-		<label for="housecard-2-lannister"></label>
-		<input type="checkbox" name="housecard-3-lannister" id="housecard-3-lannister" />
-		<label for="housecard-3-lannister"></label>
-		<input type="checkbox" name="housecard-4-lannister" id="housecard-4-lannister" />
-		<label for="housecard-4-lannister"></label>
-		<input type="checkbox" name="housecard-5-lannister" id="housecard-5-lannister" />
-		<label for="housecard-5-lannister"></label>
-		<input type="checkbox" name="housecard-6-lannister" id="housecard-6-lannister" />
-		<label for="housecard-6-lannister"></label>
-    </div>
-    <input type="radio" name="navContentControl" id="martellStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-martell">Sunspear: Footman, Knight
-Salt Shore: Footman
-Sea of Dorne: Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-martell"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-martell"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-martell" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-martell" id="housecard-0-martell" />
-		<label for="housecard-0-martell"></label>
-		<input type="checkbox" name="housecard-1-martell" id="housecard-1-martell" />
-		<label for="housecard-1-martell"></label>
-		<input type="checkbox" name="housecard-2-martell" id="housecard-2-martell" />
-		<label for="housecard-2-martell"></label>
-		<input type="checkbox" name="housecard-3-martell" id="housecard-3-martell" />
-		<label for="housecard-3-martell"></label>
-		<input type="checkbox" name="housecard-4-martell" id="housecard-4-martell" />
-		<label for="housecard-4-martell"></label>
-		<input type="checkbox" name="housecard-5-martell" id="housecard-5-martell" />
-		<label for="housecard-5-martell"></label>
-		<input type="checkbox" name="housecard-6-martell" id="housecard-6-martell" />
-		<label for="housecard-6-martell"></label>
-    </div>
-    <input type="radio" name="navContentControl" id="starkStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-stark">Winterfell: Footman, Knight
-White Harbor: Footman
-The Shivering Sea: Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-stark"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-stark"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-stark" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-stark" id="housecard-0-stark" />
-		<label for="housecard-0-stark"></label>
-		<input type="checkbox" name="housecard-1-stark" id="housecard-1-stark" />
-		<label for="housecard-1-stark"></label>
-		<input type="checkbox" name="housecard-2-stark" id="housecard-2-stark" />
-		<label for="housecard-2-stark"></label>
-		<input type="checkbox" name="housecard-3-stark" id="housecard-3-stark" />
-		<label for="housecard-3-stark"></label>
-		<input type="checkbox" name="housecard-4-stark" id="housecard-4-stark" />
-		<label for="housecard-4-stark"></label>
-		<input type="checkbox" name="housecard-5-stark" id="housecard-5-stark" />
-		<label for="housecard-5-stark"></label>
-		<input type="checkbox" name="housecard-6-stark" id="housecard-6-stark" />
-		<label for="housecard-6-stark"></label>
-    </div>
-    <input type="radio" name="navContentControl" id="tyrellStuff"/>
-    <div class="navContent">
-        <label class="fullwidth">
-            Units:
-            <textarea name="units-tyrell">Highgarden: Footman, Knight
-Dornish Marches: Footman
-Redwyne Straights: Ship</textarea>
-        </label>
-        <label class="fullwidth">
-            Orders:
-            <textarea name="orders-tyrell"></textarea>
-        </label>
-        <label class="fullwidth">
-            Powertokens in Areas:
-            <textarea name="powertokens-tyrell"></textarea>
-        </label>
-        <label class="fullwidth">
-            Available Power Tokens:
-            <input name="availablePowertokens-tyrell" type="number" min="0" max="20" step="1" value="5"/>
-        </label>
-		<input type="checkbox" name="housecard-0-tyrell" id="housecard-0-tyrell" />
-		<label for="housecard-0-tyrell"></label>
-		<input type="checkbox" name="housecard-1-tyrell" id="housecard-1-tyrell" />
-		<label for="housecard-1-tyrell"></label>
-		<input type="checkbox" name="housecard-2-tyrell" id="housecard-2-tyrell" />
-		<label for="housecard-2-tyrell"></label>
-		<input type="checkbox" name="housecard-3-tyrell" id="housecard-3-tyrell" />
-		<label for="housecard-3-tyrell"></label>
-		<input type="checkbox" name="housecard-4-tyrell" id="housecard-4-tyrell" />
-		<label for="housecard-4-tyrell"></label>
-		<input type="checkbox" name="housecard-5-tyrell" id="housecard-5-tyrell" />
-		<label for="housecard-5-tyrell"></label>
-		<input type="checkbox" name="housecard-6-tyrell" id="housecard-6-tyrell" />
-		<label for="housecard-6-tyrell"></label>
-    </div>
-</div>
-<div class="board">
-    <input type="checkbox" id="toggleUnits" checked="checked"/>
-    <input type="checkbox" id="toggleOrders" checked="checked"/>
-    <input type="checkbox" id="togglePowertokens" checked="checked"/>
-    
-</div>
-  
-</body>
 
+<body ng-app="app" ng-controller="MainController as vm">
+
+    <div class="controls">
+        <ul class="interfaceControls">
+            <li>
+                <label for="toggleUnits">Show/Hide Units on Board</label>
+            </li>
+            <li>
+                <label for="toggleOrders">Show/Hide Orders on Board</label>
+            </li>
+            <li>
+                <label for="togglePowertokens">Show/Hide Powertokens on Board</label>
+            </li>
+            <li id="shortLink"><a ng-href="{{vm.shortLink}}" target="_blank" class="cursor-only">{{vm.shortLink}}</a></li>
+        </ul>
+
+        <ul class="nav">
+            <li>
+                <label for="utils">Uitilities [BETA]</label>
+            </li>
+            <li>
+                <label for="tracks">Influence Tracks/Supply/…</label>
+            </li>
+            <li ng-repeat="(key, house) in vm.houses">
+                <label for="{{key}}Stuff">{{house.name}}: Settings</label>
+            </li>
+        </ul>
+
+        <input type="radio" name="navContentControl" id="utils" />
+        <div class="navContent">
+            <button ng-click="vm.cleanRaids()">Clean Raids</button>
+            <button ng-click="vm.cleanCombat()">Clean Combat</button>
+            <button ng-click="vm.resolveCPs()">Resolve CPs</button>
+            <button ng-click="vm.cleanCPs()">Clean CPs</button>
+            <button ng-click="vm.updateVictory()">Update Victory Track</button>
+            <button ng-click="vm.updateSupply()">Update Supply Track</button>
+        </div>
+
+        <input type="radio" name="navContentControl" id="tracks" />
+        <div class="navContent">
+
+            <label class="fullwidth" ng-repeat="track in vm.tracks">
+                {{track.name}} Order:
+                <textarea ng-model="track.positionsText"></textarea>
+            </label>
+
+            <label class="fullwidth">
+                Supply:
+                <textarea name="supply" ng-model="vm.supplyText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Victory:
+                <textarea name="victory" ng-model="vm.victoryText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Garrisons:
+                <textarea name="garrisons" ng-model="vm.garrisonsText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Wildlings:
+                <input type="number" ng-model="vm.wildlingPower" step="2" min="0" max="12" value="2" name="wildlings" />
+            </label>
+            <label class="fullwidth">
+                Round:
+                <input type="number" ng-model="vm.round" step="1" min="1" max="10" value="1" name="round" />
+            </label>
+
+            <label class="fullwidth">
+                {{vm.trackTokens.vsb.name}} was used:
+                <input type="checkbox" name="vsb-used" ng-model="vm.trackTokens.vsb.isUsed" />
+            </label>
+            <label class="fullwidth">
+                {{vm.trackTokens.raven.name}} was used:
+                <input type="checkbox" name="raven-used" ng-model="vm.trackTokens.raven.isUsed" />
+            </label>
+
+            <label class="fullwidth" ng-repeat="(key, house) in vm.houses">
+                {{house.name}} House Cards:
+                <textarea name="housecards-{{house._name}}" ng-model="house.cardsImages"></textarea>
+            </label>
+        </div>
+
+        <div ng-repeat="(key, house) in vm.houses">
+            <input type="radio" name="navContentControl" id="{{house._name}}Stuff" />
+            <div class="navContent">
+                <label class="fullwidth">
+                    Units:
+                    <textarea name="units-{{house._name}}" ng-model="house.unitsText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Orders:
+                    <textarea name="orders-{{house._name}}" ng-model="house.ordersText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Powertokens in Areas:
+                    <textarea name="powertokens-{{house._name}}" ng-model="house.ptsText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Available Power Tokens:
+                    <input name="availablePowertokens-{{house._name}}" ng-model="house.ownedPowerTokens" type="number" min="0" max="20" step="1"
+                    value="5" />
+                </label>
+                <span ng-repeat="(index, card) in house.cards">
+                    <input type="checkbox" name="housecard-{{index}}-{{house._name}}" id="housecard-{{index}}-{{house._name}}" ng-model="house.cardsTracking[index]" />
+                    <label for="housecard-{{index}}-{{house._name}}">
+                        <img ng-src="{{card}}" />
+                    </label>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Should be inside div.board -->
+
+    <div class="board">
+        <div class="tokenCounts-{{key}} powertoken-{{key}} noselect" ng-repeat="(key, house) in vm.houses">
+            <div class="availablePowertokens noselect" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div><div class="leftPowertokens noselect" ng-click="house.gainPowerToken()" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
+        </div>
+        <div ng-repeat="(key, track) in vm.tracks">
+            <div ng-repeat="(index, house) in track.positions track by $index">
+                <div class="pos-{{track.token.className}}-{{index+1}} token-{{house}}">
+                </div>
+            </div>
+        </div>
+        
+        <input type="checkbox" id="toggleUnits" ng-model="vm.showUnits" />
+        <input type="checkbox" id="toggleOrders" ng-model="vm.showOrders" />
+        <input type="checkbox" id="togglePowertokens" ng-model="vm.showPowerTokens" />
+
+        <div class="wildlingmarker pos-wilding-{{vm.wildlingPower}}" ng-click="vm.increaseWildlingPower()"></div>
+        <div class="round pos-round-{{vm.round}}" ng-click="vm.increaseRound()"></div>
+
+        <div class="supply-{{houseName}} pos-supply-{{count}}" ng-repeat="(houseName, count) in vm.supply"></div>
+        <div class="victory-{{houseName}} pos-victory-{{count}}" ng-repeat="(houseName, count) in vm.victory"></div>
+
+        <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}" ng-repeat="(key, house) in vm.houses">
+            <div class="{{unit.unit}}-{{house._name}} pos-{{unit.area}} unit" ng-repeat="unit in house.units track by $index">
+            </div>
+            <div class="order-{{order.order}} pos-{{order.area}}" ng-repeat="order in house.orders track by $index">
+            </div>
+            <div class="powertoken-{{house._name}} pos-{{area}}" ng-repeat="area in house.consolidatedAreas track by $index">
+            </div>
+        </div>
+
+        <div class="garrison pos-{{garrison.area}}" data-value="{{garrison.str}}" ng-repeat="garrison in vm.garrisons"></div>
+
+        <div class="{{key}}-token {{token.isUsed ? 'used' : ''}}"
+             ng-click="token.invert()"
+             ng-repeat="(key, token) in vm.trackTokens"></div>
+
+    </div>
+
+</body>
 
 </html>
