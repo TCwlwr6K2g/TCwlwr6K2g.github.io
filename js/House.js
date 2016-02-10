@@ -13,7 +13,7 @@
                 this.units = [];
                 this.unitsText = null;
 
-                this.handledOrders = [];
+                this.orders = [];
                 this.ordersText = null;
 
                 this.ptsText = null;
@@ -29,11 +29,10 @@
 
                 this.ownedPowerTokens--;
             };
-            House.prototype.gainPowerToken = function () {
-                if (this.ownedPowerTokens >= this.maxPowerTokens)
-                    return;
+            House.prototype.gainPowerToken = function (pts) {
+                pts = pts || 1;
 
-                this.ownedPowerTokens++;
+                this.ownedPowerTokens = Math.min(this.maxPowerTokens, this.ownedPowerTokens + pts);
             };
 
             House.prototype.setUnits = function (units) {
@@ -47,10 +46,10 @@
 
             House.prototype.setOrders = function (orders) {
                 var house = this;
-                house.handledOrders = [];
+                house.orders = [];
 
                 angular.forEach(orders, function (order) {
-                    house.handledOrders.push('order-' + order.order.toLowerCase() + ' pos-' + order.area);
+                    house.orders.push({area: order.area, order: order.order.toLowerCase()});
                 });
             };
 

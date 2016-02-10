@@ -4,12 +4,12 @@
     angular.module('app').controller('MainController', MainController);
 
     MainController.$inject = ['$scope', '$window', '$timeout',
-        'ConfigurationService',
+        'ConfigurationService', 'MapService',
         'HouseService', 'TrackService', 'TrackTokenService',
         'GarrisonsService', 'OrdersService', 'UnitsService', 'TracksService', 'PTsService', 'CardsService', 'MarkersService'];
 
     function MainController($scope, $window, $timeout,
-        Configuration,
+        Configuration, Map,
         House, Track, TrackToken,
         Garrisons, Orders, Units, Tracks, PTs, Cards, Markers) {
 
@@ -219,6 +219,72 @@
             body.append(img);
             
             vm.shortLink = 'http://tinyurl.com/' + str;
+        }
+        
+        vm.resolveCPs = resolveCPs;
+        
+        function resolveCPs() {
+            // see each area that has CP order
+            // the amount gained by each player is 1 for a CP + number or crowns
+            
+            var summary = {};
+            
+            angular.forEach(vm.houses, function(house) {
+                var ptsGained = resolveCPsByHouse(house) ;
+                summary[house._name] = ptsGained;
+            });
+            
+            if (confirm('This are the power token gained by each house:\n' + summaryToString(summary) + '\nDo you wish to add to the houses?')) {
+                angular.forEach(summary, function(ptsGained, houseName) {
+                    vm.houses[houseName].gainPowerToken(ptsGained);
+                });
+            }
+        }
+        
+        function resolveCPsByHouse(house) {
+            var ptsGained = _.chain(house.orders)
+                                .filter(function(token) { return token.order == 'power-1'; })
+                                .reduce(function(result, token) { 
+                                    var area = Map[token.area];
+                                    
+                                    if (isHarborSurrounded(token.area, house._name)) {
+                                        return result;
+                                    }
+                                    
+                                    return result + 1 + area.crown;
+                                }, 0).value();
+                                
+            return ptsGained;
+        }
+        
+        function isHarborSurrounded(areaName, checkedHouse) {
+            var area = Map[areaName];
+            
+            if (!_.has(area, 'surroundingSea'))
+                return false;
+                
+            var surroundingSea = Map[area.surroundingSea];
+            
+            var unitsThatSurround = _.chain(vm.houses)
+                                    .filter(function(house) {
+                                        return house._name != checkedHouse
+                                    })
+                                    .map(function(house) { 
+                                        return house.units;
+                                    })
+                                    .flatten()
+                                    .filter(function(unit) {
+                                        return unit.area == area.surroundingSea;
+                                    }).value();
+            
+            return unitsThatSurround.length > 0;
+        }
+        
+        function summaryToString(summary) {
+            return _.reduce(summary, function(text, pts, houseName) {
+                var house = vm.houses[houseName];
+                return text + house.name + ' +' + pts + ' -> ' + Math.min(house.maxPowerTokens, house.ownedPowerTokens + pts) + '\n';
+            }, '');
         }
     }
 
