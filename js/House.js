@@ -24,7 +24,9 @@
                 this.cardsTracking = null;
             }
             House.prototype.leftPowertokens = function () {
-                return this.maxPowerTokens - this.ownedPowerTokens;
+                var countConsolidatedAreas = (this.consolidatedAreas && this.consolidatedAreas.length) || 0;
+                
+                return this.maxPowerTokens - this.ownedPowerTokens -countConsolidatedAreas;
             };
             House.prototype.spendPowerToken = function () {
                 if (this.ownedPowerTokens <= 0)
