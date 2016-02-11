@@ -170,13 +170,15 @@
         <div class="supply-{{houseName}} pos-supply-{{count}}" ng-repeat="(houseName, count) in vm.supply"></div>
         <div class="victory-{{houseName}} pos-victory-{{count}}" ng-repeat="(houseName, count) in vm.victory"></div>
 
-        <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}" ng-repeat="(key, house) in vm.houses">
+        <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}">
+            <div ng-repeat-start="(key, house) in vm.houses"></div>
             <div class="{{unit.unit}}-{{house._name}} pos-{{unit.area}} unit" ng-repeat="unit in house.units track by $index">
-            </div>
-            <div class="order-{{order.order}} pos-{{order.area}}" ng-repeat="order in house.orders track by $index">
-            </div>
-            <div class="powertoken-{{house._name}} pos-{{area}}" ng-repeat="area in house.consolidatedAreas track by $index">
-            </div>
+                </div>
+                <div class="order-{{order.order}} pos-{{order.area}}" ng-repeat="order in house.orders track by $index">
+                </div>
+                <div class="powertoken-{{house._name}} pos-{{area}}" ng-repeat="area in house.consolidatedAreas track by $index">
+                </div>
+            <div ng-repeat-end=""></div>
         </div>
 
         <div class="garrison pos-{{garrison.area}}" data-value="{{garrison.str}}" ng-repeat="garrison in vm.garrisons"></div>
