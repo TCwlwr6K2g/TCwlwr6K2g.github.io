@@ -56,8 +56,11 @@
                     return '';
                 
                 return _.reduce(orders, function(text, token) {
+                    if (token == null || token.area == null || token.area.trim().length == 0)
+                        return text;
+                        
                     var area = Map[token.area];
-                    return text + area.name + ': ' + (token.order ? orderNames[token.order] : '') +  '\n';
+                    return text + (text.length > 0 ? '\n' : '') + area.name + ': ' + (token.order ? orderNames[token.order] : '');
                 }, '');
             }
         };

@@ -291,7 +291,7 @@
         
         function cleanRaids() {
             angular.forEach(vm.houses, function(house) {
-                orders = house.orders;
+                var orders = house.orders;
                 
                 cleanOrdersByHouse(orders, 'raid-1');
                 cleanOrdersByHouse(orders, 'raid-2');
@@ -308,7 +308,7 @@
         
         function cleanCombat() {
             angular.forEach(vm.houses, function(house) {
-                orders = house.orders;
+                var orders = house.orders;
                 
                 cleanOrdersByHouse(orders, 'march-0');
                 cleanOrdersByHouse(orders, 'march-1');
@@ -324,7 +324,7 @@
         
         function cleanCPs() {
             angular.forEach(vm.houses, function(house) {
-                orders = house.orders;
+                var orders = house.orders;
 
                 cleanOrdersByHouse(orders, 'power-1');
                 
