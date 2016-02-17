@@ -229,6 +229,7 @@
         vm.updateVictory = updateVictory;
         vm.updateSupply = updateSupply;
         vm.gameOfThrones = gameOfThrones;
+        vm.validateStars = validateStars;
         
         function resolveCPs() {
             var summary = {};
@@ -430,6 +431,29 @@
         
         function countPTsByArea(area, house) {
             return isHarbor(area) && !isHarborSurrounded(area, house._name) ? 1 : area.crown;
+        }
+        
+        function validateStars() {
+            var stars = [3, 3, 2, 1, 0, 0];
+            
+            angular.forEach(vm.tracks.kc.positions, function(houseName, index) {
+                var house = vm.houses[houseName];
+                var maxAllowed = stars[index];
+                
+                if (!isStarredOrderValid(house, maxAllowed)) {
+                    alert('House ' + house.name + ' has invalid orders!');
+                }
+            });
+        }
+        
+        function isStarredOrderValid(house, max) {
+            var numStarredOrders = _.filter(house.orders, function(token) { return isStarredOrder(token.order); }).length;
+                                
+            return numStarredOrders <= max;
+        }
+        
+        function isStarredOrder(order) {
+            return order.indexOf('-2') >= 0;
         }
     }
 
