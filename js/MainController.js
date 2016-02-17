@@ -1,3 +1,4 @@
+/* global _ */
 /* global Base64 */
 /* global LZString */
 (function () {
@@ -227,6 +228,7 @@
         vm.cleanCPs = cleanCPs;
         vm.updateVictory = updateVictory;
         vm.updateSupply = updateSupply;
+        vm.gameOfThrones = gameOfThrones;
         
         function resolveCPs() {
             var summary = {};
@@ -259,13 +261,19 @@
             return ptsGained;
         }
         
-        function isHarborSurrounded(areaName, checkedHouse) {
-            var area = Map[areaName];
+        function isHarbor(area) {
+            if (typeof area == 'string')
+                area = Map[area];
+            
+            return _.has(area, 'surroundingSea');
+        }
+        
+        function isHarborSurrounded(area, checkedHouse) {
+            if (typeof area == 'string')
+                area = Map[area];
             
             if (!_.has(area, 'surroundingSea'))
                 return false;
-                
-            var surroundingSea = Map[area.surroundingSea];
             
             var unitsThatSurround = _.chain(vm.houses)
                                     .filter(function(house) {
@@ -336,29 +344,13 @@
             var summary = {};
             
             angular.forEach(vm.houses, function(house) {
-                var houseVPs = countVictoryPointByHouse(house);
+                var houseVPs = countAreaPointByHouse(house, function(area) { return area.castle > 0 || area.stronghold > 0 ? 1 : 0 });
                 summary[house._name] = houseVPs;
             });
             
             if (confirm('This are the new Victory Points:\n' + vpSummaryToString(summary) + '\nDo you wish to update the track?')) {
                 vm.victoryText = Markers.toText(summary);
             }
-        }
-        
-        function countVictoryPointByHouse(house) {
-            var uniqAreas = _.union(_.map(house.units, 'area'), house.consolidatedAreas);
-            
-            var areasVps = _.reduce(uniqAreas, function(vps, areaName) {
-                                var area = Map[areaName];
-                                var areaGrantVP = area.castle > 0 || area.stronghold > 0;
-                                return vps + (areaGrantVP ? 1 : 0);
-                            }, 0);
-                            
-            if (isAreaEmpty(house.capital)) {
-                areasVps += 1;
-            }        
-                            
-            return areasVps;
         }
         
         function isAreaEmpty(areaName) {
@@ -387,7 +379,7 @@
             var summary = {};
             
             angular.forEach(vm.houses, function(house) {
-                var houseSupplies = countSupplyPointByHouse(house);
+                var houseSupplies = countAreaPointByHouse(house, function(area) { return area.barrel; });
                 summary[house._name] = houseSupplies;
             });
             
@@ -396,20 +388,19 @@
             }
         }
         
-        function countSupplyPointByHouse(house) {
+        function countAreaPointByHouse(house, countFunction) {
             var uniqAreas = _.union(_.map(house.units, 'area'), house.consolidatedAreas);
             
-            var supplyPoints = _.reduce(uniqAreas, function(count, areaName) {
-                                var area = Map[areaName];
-                                return count + area.barrel;
-                            }, 0);
-                            
             if (isAreaEmpty(house.capital)) {
-                var capital = Map[house.capital];
-                supplyPoints += capital.barrel;
-            }  
-                            
-            return supplyPoints;
+                uniqAreas = _.union(uniqAreas, [house.capital]);
+            }
+            
+            var points = _.reduce(uniqAreas, function(count, areaName) {
+                                var area = Map[areaName];
+                                return count + countFunction(area, house);
+                            }, 0);
+            
+            return points;
         }
         
         function spSummaryToString(summary) {
@@ -420,6 +411,25 @@
                 
                 return text + house.name + ' from ' + previousSP + ' -> ' + count + '\n';
             }, '');
+        }
+        
+        function gameOfThrones(house) {
+            var summary = {};
+            
+            angular.forEach(vm.houses, function(house) {
+                var ptsGained = countAreaPointByHouse(house, countPTsByArea);
+                summary[house._name] = ptsGained;
+            });
+            
+            if (confirm('This are the power token gained by each house:\n' + summaryToString(summary) + '\nDo you wish to add to the houses?')) {
+                angular.forEach(summary, function(ptsGained, houseName) {
+                    vm.houses[houseName].gainPowerToken(ptsGained);
+                });
+            }
+        }
+        
+        function countPTsByArea(area, house) {
+            return isHarbor(area) && !isHarborSurrounded(area, house._name) ? 1 : area.crown;
         }
     }
 
