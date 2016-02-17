@@ -64,12 +64,38 @@
 
         <input type="radio" name="navContentControl" id="utils" />
         <div class="navContent">
-            <button ng-click="vm.cleanRaids()">Clean Raids</button>
-            <button ng-click="vm.cleanCombat()">Clean Combat</button>
-            <button ng-click="vm.resolveCPs()">Resolve CPs</button>
-            <button ng-click="vm.cleanCPs()">Clean CPs</button>
-            <button ng-click="vm.updateVictory()">Update Victory Track</button>
-            <button ng-click="vm.updateSupply()">Update Supply Track</button>
+            
+            <div>
+                <h2>Action Phase</h3>
+                <button ng-click="vm.cleanRaids()">Clean Raids</button>
+                <button ng-click="vm.cleanCombat()">Clean Combat</button>
+                <button ng-click="vm.resolveCPs()">Resolve CPs</button>
+                <button ng-click="vm.cleanCPs()">Clean CPs</button>
+            </div>
+            
+            <div>
+                <h2>Westeros Phase</h3>
+                <div>
+                    <h3>Deck I</h3>
+                    <button ng-click="vm.updateSupply()">Update Supply Track</button>
+                </div>
+                <div>
+                    <h3>Deck II</h3>
+                    
+                </div>
+                <div>
+                    <h3>Deck III</h3>
+                    
+                </div>
+            </div>
+            
+            <div>
+                <h2>General</h3>
+                <button ng-click="vm.updateVictory()">Update Victory Track</button>
+                <button ng-click="vm.updateSupply()">Update Supply Track</button>
+            </div>
+            
+            
         </div>
 
         <input type="radio" name="navContentControl" id="tracks" />
