@@ -229,7 +229,7 @@
         vm.updateVictory = updateVictory;
         vm.updateSupply = updateSupply;
         vm.gameOfThrones = gameOfThrones;
-        vm.validateStars = validateStars;
+        vm.validateOrders = validateOrders;
         
         function resolveCPs() {
             var summary = {};
@@ -433,28 +433,56 @@
             return isHarbor(area) && !isHarborSurrounded(area, house._name) ? 1 : area.crown;
         }
         
-        function validateStars() {
+        function validateOrders() {
             var stars = [3, 3, 2, 1, 0, 0];
             
             angular.forEach(vm.tracks.kc.positions, function(houseName, index) {
                 var house = vm.houses[houseName];
                 var maxAllowed = stars[index];
                 
-                if (!isStarredOrderValid(house, maxAllowed)) {
-                    alert('House ' + house.name + ' has invalid orders!');
+                if (getOrdersCount(house, isStarredOrder) > maxAllowed) {
+                    alert('House ' + house.name + ' has more starred orders than allowed!');
                 }
+                
+                if (vm.deck3effectCard != vm.deck3cards.none) {
+                    var restrictedOrder = vm.deck3effectCard.order;
+                    
+                    if (getOrdersCount(house, function (orderToken) { return checkOrder(orderToken, restrictedOrder); }) > 0) {
+                        alert('House ' + house.name + ' has restricted orders!');
+                    }
+                }
+                
+                angular.forEach(_.groupBy(house.orders, 'order'), function(orders, orderType) {
+                    if (orders.length > Orders.dict[orderType].max) {
+                        alert('House ' + house.name + ' has more ' + orderType + ' orders than allowed!');
+                    }
+                })
+                
             });
         }
         
-        function isStarredOrderValid(house, max) {
-            var numStarredOrders = _.filter(house.orders, function(token) { return isStarredOrder(token.order); }).length;
-                                
-            return numStarredOrders <= max;
+        function checkOrder(token, orderTemplate) {
+            return token.order.indexOf(orderTemplate) >= 0;
         }
         
-        function isStarredOrder(order) {
-            return order.indexOf('-2') >= 0;
+        function getOrdersCount(house, orderPredicate) {
+            return _.filter(house.orders, function(token) { return orderPredicate(token); }).length;
         }
+        
+        function isStarredOrder(token) {
+            return token.order.indexOf('-2') >= 0;
+        }
+        
+        vm.deck3cards = {
+            none: { name: 'None', description: 'No restrictions' },
+            SoStorms: { name: 'Sea of Storms', description: 'No Raid orders', order: 'raid' },
+            RoA: { name: 'Rains of Autumn', description: 'No March+1* orders', order: 'march' },
+            FfC: { name: 'Feast for Crows', description: 'No Consolidate Power orders', order: 'power' },
+            WoL: { name: 'Web of Lies', description: 'No Support orders', order: 'support' },
+            SoSwords: { name: 'Storm of Swords', description: 'No Defense orders', order: 'defend' }
+        };
+        
+        vm.deck3effectCard = vm.deck3cards.none; 
     }
 
 })();

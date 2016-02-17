@@ -12,3 +12,7 @@ a.cursor-only {
   user-select: none;           /* non-prefixed version, currently
                                   not supported by any browser */
 }
+
+.deck3 label {
+    display: inline-block
+}

@@ -4,22 +4,23 @@
     OrdersService.$inject = ['MapService']
 
     function OrdersService(Map) {
-        
-        var orderNames = {
-            'power-1': 'CP',
-            'power-2': 'CP*',
-            'march-0': 'M-1',
-            'march-1': 'M+0',
-            'march-2': 'M+1',
-            'raid-1': 'R',
-            'raid-2': 'R*',
-            'defend-1': 'D',
-            'defend-2': 'D+2',
-            'support-1': 'S',
-            'support-2': 'S*'
+
+        var ordersDict = {
+            'power-1': { preferedName: 'CP', max: 2, patternCheck: / cp(\n|$)/ig, patternReplace: ' power-1$1' },
+            'power-2': { preferedName: 'CP*', max: 1, patternCheck: / cp\*(\n|$)/ig, patternReplace: ' power-2$1' },
+            'march-0': { preferedName: 'M-1', max: 1, patternCheck: / m-1(\n|$)/ig, patternReplace: ' march-0$1' },
+            'march-1': { preferedName: 'M+0', max: 1, patternCheck: / m\+0(\n|$)/ig, patternReplace: ' march-1$1' },
+            'march-2': { preferedName: 'M+1', max: 1, patternCheck: / m(\+1)?\*?(\n|$)/ig, patternReplace: ' march-2$2' },
+            'raid-1': { preferedName: 'R', max: 2, patternCheck: / r(aid)?(\n|$)/ig, patternReplace: ' raid-1$2' },
+            'raid-2': { preferedName: 'R*', max: 1, patternCheck: / r(aid)?\*(\n|$)/ig, patternReplace: ' raid-2$2' },
+            'defend-1': { preferedName: 'D', max: 2, patternCheck: / d(efend)?(\+1)?(\n|$)/ig, patternReplace: ' defend-1$3' },
+            'defend-2': { preferedName: 'D+2', max: 1, patternCheck: / d(efend)?(\+2)?\*?(\n|$)/ig, patternReplace: ' defend-2$3' },
+            'support-1': { preferedName: 'S', max: 2, patternCheck: / s(upport)?(\n|$)/ig, patternReplace: ' support-1$2' },
+            'support-2': { preferedName: 'S*', max: 1, patternCheck: / s(upport)?(\+1)?\*?(\n|$)/ig, patternReplace: ' support-2$3' }
         };
-        
+
         return {
+            dict: ordersDict,
             parse: function (text) {
                 if (!text)
                     return;
@@ -51,16 +52,16 @@
 
                 return orders;
             },
-            toText: function(orders) {
+            toText: function (orders) {
                 if (!orders || orders.length == 0)
                     return '';
-                
-                return _.reduce(orders, function(text, token) {
+
+                return _.reduce(orders, function (text, token) {
                     if (token == null || token.area == null || token.area.trim().length == 0)
                         return text;
-                        
+
                     var area = Map[token.area];
-                    return text + (text.length > 0 ? '\n' : '') + area.name + ': ' + (token.order ? orderNames[token.order] : '');
+                    return text + (text.length > 0 ? '\n' : '') + area.name + ': ' + (token.order ? ordersDict[token.order].preferedName : '');
                 }, '');
             }
         };

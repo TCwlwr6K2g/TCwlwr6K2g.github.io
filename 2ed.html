@@ -83,16 +83,17 @@
                     <h3>Deck II</h3>
                     <button ng-click="vm.gameOfThrones()">Game of Thrones</button>
                 </div>
-                <div>
+                <div class="deck3">
                     <h3>Deck III</h3>
-                    
+                    <select ng-options="card as (card.name + ': ' + card.description) for (name, card) in vm.deck3cards" ng-model="vm.deck3effectCard">
+                    </select>
                 </div>
             </div>
             
             <div>
                 <h2>General</h3>
                 <button ng-click="vm.updateVictory()">Update Victory Track</button>
-                <button ng-click="vm.validateStars()">Validate Stars</button>
+                <button ng-click="vm.validateOrders()">Validate Orders</button>
             </div>
             
             
