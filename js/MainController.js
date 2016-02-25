@@ -481,8 +481,120 @@
             WoL: { name: 'Web of Lies', description: 'No Support orders', order: 'support' },
             SoSwords: { name: 'Storm of Swords', description: 'No Defense orders', order: 'defend' }
         };
+
+        vm.deck3effectCard = vm.deck3cards.none;
+
+        vm.validateUnits = validateUnits;
+
+        function validateUnits() {
+            validateMaximumUnits();
+            validateSupplyUnits();
+        }
+
+        function validateMaximumUnits() {
+            var unitLimits = {
+                knight: 5,
+                footman: 10,
+                siege: 2,
+                ship: 6,
+            };
+
+            angular.forEach(vm.houses, function (house) {
+                var unitsAboveLimit = getUnitsAboveLimits(house, unitLimits);
+
+                if (unitsAboveLimit.length > 0) {
+
+                    var unitTypes = _.chain(unitsAboveLimit).map(function (x) { return x.count + ': ' + x.unitType; }).join(', ').value();
+
+                    alert('House ' + house.name + ' has more (' + unitTypes + ') than allowed!');
+                }
+            });
+        }
         
-        vm.deck3effectCard = vm.deck3cards.none; 
+        function getUnitsAboveLimits(house, unitLimits) {
+             return _.chain(house.units)
+                    .groupBy('unit')
+                    .map(function (units, unitType) {
+                        return { unitType: unitType, count: units.length }
+                    })
+                    .filter(function (x) {
+                        return x.count > unitLimits[x.unitType];
+                    })
+                    .value();
+        }
+
+        function validateSupplyUnits(house) {
+            var supplyLimitsText = ['   22',
+                '   32',
+                '  322',
+                ' 3222',
+                ' 3322',
+                ' 4322',
+                '43222'];
+
+            var supplyLimits = convertSupplyTextToDict(supplyLimitsText);
+
+            angular.forEach(vm.houses, function (house) {
+                var unitsAboveLimit = getArmiesAboveSupply(house, supplyLimits);
+
+                if (unitsAboveLimit.length > 0) {
+                    var areas = _.chain(unitsAboveLimit)
+                        .flatMap('areas')
+                        .map(function (areaName) { return Map[areaName].name; })
+                        .join(', ')
+                        .value();
+
+                    alert('House ' + house.name + ' has more units than supply limits allow in the areas: ' + areas);
+                }
+            });
+        }
+
+        function getArmiesAboveSupply(house, supplyLimits) {
+            var supplyCount = vm.supply[house._name];
+            var houseSupplyLimits = supplyLimits[supplyCount];
+
+            return _.chain(house.units)
+                .groupBy('area')
+                .map(function (units, areaName) {
+                    return { areaName: areaName, armySize: units.length };
+                })
+                .groupBy('armySize')
+                .map(function (areas, armySize) {
+                    return {
+                        armySize: parseInt(armySize),
+                        countAreas: areas.length,
+                        areas: _.map(areas, 'areaName')
+                    };
+                })
+                .orderBy('armySize', 'desc')
+                .filter(function (x) {
+                    if (x.armySize <= 1)
+                        return false;
+
+                    if (!(x.armySize in houseSupplyLimits))
+                        return true;
+
+                    return x.countAreas > houseSupplyLimits[x.armySize];
+                })
+                .value();
+        }
+
+        function convertSupplyTextToDict(supplyLimitsText) {
+            return _.chain(supplyLimitsText)
+                .map(function (x) { return x.trim(); })
+                .map(function (item) {
+
+                    var nji = {};
+
+                    angular.forEach(_.groupBy(item), function (limits, armySize) {
+                        nji[parseInt(armySize)] = limits.length;
+                    });
+
+                    return nji;
+                })
+                .value();
+        }
+
     }
 
 })();
