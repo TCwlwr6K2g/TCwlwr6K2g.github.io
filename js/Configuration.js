@@ -27,6 +27,8 @@
                     vm.houses[house._name].ownedPowerTokens = parseInt(conf.availablePowertokens[house._name]);
                     vm.houses[house._name].maxPowerTokens = parseInt(conf.maxPowertokens);
                 });
+                
+                vm.houseCardsStyle = conf.houseCardsStyle;
             },
             getConfFromVM: function (vm) {
                 var conf = {
@@ -67,6 +69,8 @@
                     conf.availablePowertokens[house._name] = vm.houses[house._name].ownedPowerTokens;
                     conf.maxPowertokens = vm.houses[house._name].maxPowerTokens;
                 });
+                
+                conf.houseCardsStyle = vm.houseCardsStyle;
 
                 return conf;
             }

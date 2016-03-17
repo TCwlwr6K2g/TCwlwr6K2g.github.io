@@ -142,6 +142,12 @@
                 {{house.name}} House Cards:
                 <textarea name="housecards-{{house._name}}" ng-model="house.cardsImages"></textarea>
             </label>
+            
+            <label class="fullwidth">
+                House Cards Style:
+                <input type="text" ng-model="vm.houseCardsStyle" />
+            </label>
+            
         </div>
 
         <div ng-repeat="(key, house) in vm.houses">
@@ -167,7 +173,7 @@
                 <span ng-repeat="(index, card) in house.cards">
                     <input type="checkbox" name="housecard-{{index}}-{{house._name}}" id="housecard-{{index}}-{{house._name}}" ng-model="house.cardsTracking[index]" />
                     <label for="housecard-{{index}}-{{house._name}}">
-                        <img ng-src="{{card}}" />
+                        <img ng-src="{{card}}" style="{{vm.houseCardsStyle}}" />
                     </label>
                 </span>
             </div>
