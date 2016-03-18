@@ -252,6 +252,10 @@
                                 .reduce(function(result, token) { 
                                     var area = Map[token.area];
                                     
+                                    if (area.landType == 'sea') {
+                                        return result;
+                                    }
+                                    
                                     if (isHarborSurrounded(token.area, house._name)) {
                                         return result;
                                     }

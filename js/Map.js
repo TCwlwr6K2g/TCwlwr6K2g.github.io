@@ -139,7 +139,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'shiveringsea': {
                 name: 'The Shivering Sea',
@@ -148,7 +149,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'narrowsea': {
                 name: 'Narrow Sea',
@@ -157,7 +159,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'shipbreakerbay': {
                 name: 'Shipbreaker Bay',
@@ -166,7 +169,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'sunsetsea': {
                 name: 'Sunset Sea',
@@ -175,7 +179,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'goldensound': {
                 name: 'The Golden Sound',
@@ -184,7 +189,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'lannisport': {
                 name: 'Lannisport',
@@ -275,7 +281,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'pyke': {
                 name: 'Pyke',
@@ -340,7 +347,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'sunspear': {
                 name: 'Sunspear',
@@ -377,7 +385,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'blackwaterbay': {
                 name: 'Black Water Bay',
@@ -386,7 +395,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'eastsummersea': {
                 name: 'East Summer Sea',
@@ -395,7 +405,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'westsummersea': {
                 name: 'West Summer Sea',
@@ -404,7 +415,8 @@
                 crown: 0,
                 castle: 0,
                 stronghold: 0,
-                barrel: 0
+                barrel: 0,
+                landType: 'sea'
             },
             'arbor': {
                 name: 'The Arbor',
