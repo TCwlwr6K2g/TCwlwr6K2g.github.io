@@ -359,15 +359,30 @@
         }
         
         function isAreaEmpty(areaName) {
-            return _.chain(vm.houses)
-                    .map(function(house) { 
-                        return house.units;
+            var areasWithUnits = _.chain(vm.houses)
+                                   .map(function(house) { 
+                                       return house.units;
+                                   })
+                                   .flatten()
+                                   .map('area')
+                                   .value();
+                                   
+            var areasWithPT = _.chain(vm.houses)
+                               .map(function(house) { 
+                                    return house.consolidatedAreas;
+                                })
+                                .flatten()
+                                .value();
+                                
+            var count = _.chain(areasWithUnits)
+                    .union(areasWithPT)
+                    .filter(function(area) {
+                        return area == areaName
                     })
-                    .flatten()
-                    .filter(function(unit) {
-                        return unit.area == areaName
-                    })
-                    .value().length == 0;
+                    .value()
+                    .length;
+                    
+            return count == 0;
         }
         
         function vpSummaryToString(summary) {
@@ -598,7 +613,6 @@
                 })
                 .value();
         }
-
     }
 
 })();
