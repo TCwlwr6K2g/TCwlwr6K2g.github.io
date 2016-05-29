@@ -539,7 +539,7 @@
                 knight: 5,
                 footman: 10,
                 siege: 2,
-                ship: 6,\
+                ship: 6
             };
 
             angular.forEach(vm.houses, function (house) {
