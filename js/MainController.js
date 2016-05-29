@@ -505,8 +505,33 @@
         vm.validateUnits = validateUnits;
 
         function validateUnits() {
+            validateUnitTypes();
             validateMaximumUnits();
             validateSupplyUnits();
+        }
+        
+        function validateUnitTypes() {
+            angular.forEach(vm.houses, function (house) {
+                
+                var invalidUnits = _.chain(house.units).filter(function(x) {
+                   var area = Map[x.area];
+                   var isSeaArea = (_.has(area, 'landType') && area.landType == 'sea') || isHarbor(area);
+                   var isSeaUnit = x.unit == 'ship';
+                   return isSeaArea != isSeaUnit; 
+                }).groupBy(function(x){
+                    var area = Map[x.area];
+                    return x.unit + ' in ' + area.name;
+                }).map(function(x, key){
+                    return key;}
+                    ).value();
+                
+                if (invalidUnits.length > 0) {
+
+                    var unitTypes = _.chain(invalidUnits).map(function (x) { return x; }).join(', ').value();
+
+                    alert('House ' + house.name + ' has invalid units:\n' + unitTypes);
+                }
+            });
         }
 
         function validateMaximumUnits() {
