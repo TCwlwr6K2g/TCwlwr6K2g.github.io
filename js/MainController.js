@@ -1,6 +1,7 @@
 /* global _ */
 /* global Base64 */
 /* global LZString */
+/* global angular */
 (function () {
     angular.module('app').controller('MainController', MainController);
 
@@ -39,19 +40,19 @@
                 lannister: new House('Lannister', 'lannisport'),
                 martell: new House('Martell', 'sunspear'),
                 stark: new House('Stark', 'winterfell'),
-                tyrell: new House('Tyrell', 'highgarden'),
+                tyrell: new House('Tyrell', 'highgarden')
             };
 
             vm.trackTokens = {
                 IT: new TrackToken('Iron Throne', 'throne', false),
                 vsb: new TrackToken('Valyrian Steel Blade', 'fiefdom', true),
-                raven: new TrackToken('Raven', 'court', true),
+                raven: new TrackToken('Raven', 'court', true)
             };
 
             vm.tracks = {
                 it: new Track('Iron Throne', vm.trackTokens.IT),
                 f: new Track('Fiefdoms', vm.trackTokens.vsb),
-                kc: new Track('King\'s Court', vm.trackTokens.raven),
+                kc: new Track('King\'s Court', vm.trackTokens.raven)
             };
         }
 
@@ -288,7 +289,7 @@
             
             var unitsThatSurround = _.chain(vm.houses)
                                     .filter(function(house) {
-                                        return house._name != checkedHouse
+                                        return house._name != checkedHouse;
                                     })
                                     .map(function(house) { 
                                         return house.units;
@@ -320,8 +321,8 @@
         }
         
         function cleanOrdersByHouse(orders, orderToRemove) {
-            angular.forEach(_.filter(orders, function(token) { return token.order == orderToRemove }), function (token) {
-               token.order = ''; 
+            angular.forEach(_.filter(orders, function(token) { return token.order == orderToRemove; }), function (token) {
+                token.order = ''; 
             });
         }
         
@@ -355,7 +356,7 @@
             var summary = {};
             
             angular.forEach(vm.houses, function(house) {
-                var houseVPs = countAreaPointByHouse(house, function(area) { return area.castle > 0 || area.stronghold > 0 ? 1 : 0 });
+                var houseVPs = countAreaPointByHouse(house, function(area) { return area.castle > 0 || area.stronghold > 0 ? 1 : 0; });
                 summary[house._name] = houseVPs;
             });
             
@@ -376,15 +377,15 @@
                                    
             var areasWithPT = _.chain(vm.houses)
                                .map(function(house) { 
-                                    return house.consolidatedAreas;
-                                })
-                                .flatten()
-                                .value();
+                                   return house.consolidatedAreas;
+                               })
+                               .flatten()
+                               .value();
                                 
             var count = _.chain(areasWithUnits)
                     .union(areasWithPT)
                     .filter(function(area) {
-                        return area == areaName
+                        return area == areaName;
                     })
                     .value()
                     .length;
@@ -410,7 +411,7 @@
                 summary[house._name] = houseSupplies;
             });
             
-            var strSummary = vpSummaryToString(summary);
+            var strSummary = pointsSummaryToString(summary);
             if (showPbfDialog('New Supply Points:', strSummary)) {
                 vm.supplyText = Markers.toText(summary);
             }
@@ -424,9 +425,9 @@
             }
             
             var points = _.reduce(uniqAreas, function(count, areaName) {
-                                var area = Map[areaName];
-                                return count + countFunction(area, house);
-                            }, 0);
+                var area = Map[areaName];
+                return count + countFunction(area, house);
+            }, 0);
             
             return points;
         }
@@ -474,8 +475,7 @@
                     if (orders.length > Orders.dict[orderType].max) {
                         alert('House ' + house.name + ' has more ' + orderType + ' orders than allowed!');
                     }
-                })
-                
+                });
             });
         }
         
@@ -514,10 +514,10 @@
             angular.forEach(vm.houses, function (house) {
                 
                 var invalidUnits = _.chain(house.units).filter(function(x) {
-                   var area = Map[x.area];
-                   var isSeaArea = (_.has(area, 'landType') && area.landType == 'sea') || isHarbor(area);
-                   var isSeaUnit = x.unit == 'ship';
-                   return isSeaArea != isSeaUnit; 
+                    var area = Map[x.area];
+                    var isSeaArea = (_.has(area, 'landType') && area.landType == 'sea') || isHarbor(area);
+                    var isSeaUnit = x.unit == 'ship';
+                    return isSeaArea != isSeaUnit; 
                 }).groupBy(function(x){
                     var area = Map[x.area];
                     return x.unit + ' in ' + area.name;
@@ -539,7 +539,7 @@
                 knight: 5,
                 footman: 10,
                 siege: 2,
-                ship: 6,
+                ship: 6,\
             };
 
             angular.forEach(vm.houses, function (house) {
