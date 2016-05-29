@@ -569,9 +569,16 @@
 
         function getArmiesAboveSupply(house, supplyLimits) {
             var supplyCount = vm.supply[house._name];
-            var houseSupplyLimits = supplyLimits[supplyCount];
+            var houseSupplyLimits = _.chain(supplyLimits[supplyCount])
+                                        .map(function(maxAreas, supplyLimit) { 
+                                            return { 
+                                                maxAreas: maxAreas,
+                                                supplyLimit: parseInt(supplyLimit) };
+                                            })
+                                        .orderBy('supplyLimit', 'desc')
+                                        .value();
 
-            return _.chain(house.units)
+            var armies = _.chain(house.units)
                 .groupBy('area')
                 .map(function (units, areaName) {
                     return { areaName: areaName, armySize: units.length };
@@ -586,15 +593,45 @@
                 })
                 .orderBy('armySize', 'desc')
                 .filter(function (x) {
-                    if (x.armySize <= 1)
-                        return false;
-
-                    if (!(x.armySize in houseSupplyLimits))
-                        return true;
-
-                    return x.countAreas > houseSupplyLimits[x.armySize];
+                    return x.armySize > 1;
                 })
                 .value();
+                
+            var armiesNotSupported = _.chain(armies)
+                                        .filter(function(x) {
+                                            return !(x.armySize in supplyLimits[supplyCount]);
+                                        })
+                                        .value();
+            
+            if (armiesNotSupported.length > 0) {
+                return armiesNotSupported;
+            }
+            
+            var armies = _.chain(armies)
+                            .filter(function(x){
+                                return x.armySize in supplyLimits[supplyCount];
+                            })
+                            .value();
+                
+            var remainingMaxAreas = 0;
+            var invalidArmies = [];
+            _.chain(houseSupplyLimits)
+                    .forEach(function(x) {
+                        var army = _.find(armies, function(a) { return a.armySize == x.supplyLimit; });
+                        
+                        var countUsed = army == null ? 0 : army.countAreas; 
+                        
+                        var isAboveLimit = countUsed > x.maxAreas + remainingMaxAreas;
+                        
+                        remainingMaxAreas += (x.maxAreas - countUsed);
+                        
+                        if (isAboveLimit) {
+                            invalidArmies.push(army);
+                        }
+                    })
+                    .value();
+                    
+            return invalidArmies;
         }
 
         function convertSupplyTextToDict(supplyLimitsText) {
