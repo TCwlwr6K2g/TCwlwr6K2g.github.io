@@ -239,11 +239,17 @@
                 summary[house._name] = ptsGained;
             });
             
-            if (confirm('This are the power token gained by each house:\n' + summaryToString(summary) + '\nDo you wish to add to the houses?')) {
+            var strSummary = summaryToString(summary);
+            if (showPbfDialog('PTs gained by each house:', strSummary)) {
                 angular.forEach(summary, function(ptsGained, houseName) {
                     vm.houses[houseName].gainPowerToken(ptsGained);
                 });
             }
+        }
+        
+        function showPbfDialog(prefix, strSummary) {
+            var updateMapMessage = '\nDo you wish to update the map? (You may copy the text below to paste in the thread)';
+            return prompt(prefix + '\n\n' + strSummary + updateMapMessage, strSummary);
         }
         
         function resolveCPsByHouse(house) {
@@ -353,7 +359,8 @@
                 summary[house._name] = houseVPs;
             });
             
-            if (confirm('This are the new Victory Points:\n' + vpSummaryToString(summary) + '\nDo you wish to update the track?')) {
+            var strSummary = pointsSummaryToString(summary);
+            if (showPbfDialog('New Victory Points:', strSummary)) {
                 vm.victoryText = Markers.toText(summary);
             }
         }
@@ -385,13 +392,13 @@
             return count == 0;
         }
         
-        function vpSummaryToString(summary) {
-            return _.reduce(summary, function(text, vps, houseName) {
+        function pointsSummaryToString(summary) {
+            return _.reduce(summary, function(text, points, houseName) {
                 var house = vm.houses[houseName];
                 
-                var previousVP = vm.victory[houseName];
+                var previousPoints = vm.victory[houseName];
                 
-                return text + house.name + ' from ' + previousVP + ' -> ' + vps + '\n';
+                return text + house.name + ' from ' + previousPoints + ' -> ' + points + '\n';
             }, '');
         }
         
@@ -403,7 +410,8 @@
                 summary[house._name] = houseSupplies;
             });
             
-            if (confirm('This are the new Supply Points:\n' + spSummaryToString(summary) + '\nDo you wish to update the track?')) {
+            var strSummary = vpSummaryToString(summary);
+            if (showPbfDialog('New Supply Points:', strSummary)) {
                 vm.supplyText = Markers.toText(summary);
             }
         }
@@ -423,16 +431,6 @@
             return points;
         }
         
-        function spSummaryToString(summary) {
-            return _.reduce(summary, function(text, count, houseName) {
-                var house = vm.houses[houseName];
-                
-                var previousSP = vm.supply[houseName];
-                
-                return text + house.name + ' from ' + previousSP + ' -> ' + count + '\n';
-            }, '');
-        }
-        
         function gameOfThrones(house) {
             var summary = {};
             
@@ -441,7 +439,8 @@
                 summary[house._name] = ptsGained;
             });
             
-            if (confirm('This are the power token gained by each house:\n' + summaryToString(summary) + '\nDo you wish to add to the houses?')) {
+            var strSummary = summaryToString(summary);
+            if (showPbfDialog('PTs gained by each house:', strSummary)) {
                 angular.forEach(summary, function(ptsGained, houseName) {
                     vm.houses[houseName].gainPowerToken(ptsGained);
                 });
