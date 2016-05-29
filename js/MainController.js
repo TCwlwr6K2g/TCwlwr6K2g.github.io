@@ -223,14 +223,33 @@
             vm.shortLink = 'http://tinyurl.com/' + str;
         }
         
+        // Action Phase
         vm.cleanRaids = cleanRaids;
         vm.cleanCombat = cleanCombat;
         vm.resolveCPs = resolveCPs;
         vm.cleanCPs = cleanCPs;
-        vm.updateVictory = updateVictory;
+        
+        // Deck I
         vm.updateSupply = updateSupply;
+        
+        // Deck II
         vm.gameOfThrones = gameOfThrones;
+        
+        // Deck III
+        vm.deck3cards = {
+            none: { name: 'None', description: 'No restrictions' },
+            SoStorms: { name: 'Sea of Storms', description: 'No Raid orders', order: 'raid' },
+            RoA: { name: 'Rains of Autumn', description: 'No March+1* orders', order: 'march' },
+            FfC: { name: 'Feast for Crows', description: 'No Consolidate Power orders', order: 'power' },
+            WoL: { name: 'Web of Lies', description: 'No Support orders', order: 'support' },
+            SoSwords: { name: 'Storm of Swords', description: 'No Defense orders', order: 'defend' }
+        };
+        vm.deck3effectCard = vm.deck3cards.none;
+        
+        // General
+        vm.updateVictory = updateVictory;
         vm.validateOrders = validateOrders;
+        vm.validateUnits = validateUnits;
         
         function resolveCPs() {
             var summary = {};
@@ -490,19 +509,6 @@
         function isStarredOrder(token) {
             return token.order.indexOf('-2') >= 0;
         }
-        
-        vm.deck3cards = {
-            none: { name: 'None', description: 'No restrictions' },
-            SoStorms: { name: 'Sea of Storms', description: 'No Raid orders', order: 'raid' },
-            RoA: { name: 'Rains of Autumn', description: 'No March+1* orders', order: 'march' },
-            FfC: { name: 'Feast for Crows', description: 'No Consolidate Power orders', order: 'power' },
-            WoL: { name: 'Web of Lies', description: 'No Support orders', order: 'support' },
-            SoSwords: { name: 'Storm of Swords', description: 'No Defense orders', order: 'defend' }
-        };
-
-        vm.deck3effectCard = vm.deck3cards.none;
-
-        vm.validateUnits = validateUnits;
 
         function validateUnits() {
             validateUnitTypes();
@@ -676,9 +682,4 @@
                 .value();
         }
     }
-
 })();
-
-
-
-
