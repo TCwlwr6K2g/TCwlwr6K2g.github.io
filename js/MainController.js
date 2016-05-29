@@ -432,7 +432,7 @@
             return points;
         }
         
-        function gameOfThrones(house) {
+        function gameOfThrones() {
             var summary = {};
             
             angular.forEach(vm.houses, function(house) {
@@ -555,10 +555,10 @@
         }
         
         function getUnitsAboveLimits(house, unitLimits) {
-             return _.chain(house.units)
+            return _.chain(house.units)
                     .groupBy('unit')
                     .map(function (units, unitType) {
-                        return { unitType: unitType, count: units.length }
+                        return { unitType: unitType, count: units.length };
                     })
                     .filter(function (x) {
                         return x.count > unitLimits[x.unitType];
@@ -566,7 +566,7 @@
                     .value();
         }
 
-        function validateSupplyUnits(house) {
+        function validateSupplyUnits() {
             var supplyLimitsText = ['   22',
                 '   32',
                 '  322',
@@ -598,8 +598,9 @@
                                         .map(function(maxAreas, supplyLimit) { 
                                             return { 
                                                 maxAreas: maxAreas,
-                                                supplyLimit: parseInt(supplyLimit) };
-                                            })
+                                                supplyLimit: parseInt(supplyLimit)
+                                            };
+                                        })
                                         .orderBy('supplyLimit', 'desc')
                                         .value();
 
@@ -632,11 +633,11 @@
                 return armiesNotSupported;
             }
             
-            var armies = _.chain(armies)
-                            .filter(function(x){
-                                return x.armySize in supplyLimits[supplyCount];
-                            })
-                            .value();
+            armies = _.chain(armies)
+                      .filter(function(x) {
+                          return x.armySize in supplyLimits[supplyCount];
+                      })
+                      .value();
                 
             var remainingMaxAreas = 0;
             var invalidArmies = [];
