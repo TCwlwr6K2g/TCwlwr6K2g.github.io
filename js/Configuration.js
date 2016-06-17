@@ -1,3 +1,4 @@
+/* global angular */
 (function () {
     angular.module('app').factory('ConfigurationService', ConfigurationService);
 
@@ -41,7 +42,7 @@
 
                     garrisons: vm.garrisonsText,
                     supply: vm.supplyText,
-                    victory: vm.victoryText,
+                    victory: vm.victoryText
                 };
 
                 if (vm.tracks.f.token.isUsed) {
@@ -74,6 +75,6 @@
 
                 return conf;
             }
-        }
+        };
     }
 })();

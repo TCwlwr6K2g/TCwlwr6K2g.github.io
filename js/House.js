@@ -1,3 +1,4 @@
+/* global angular */
 (function () {
     angular.module('app').factory('HouseService', HouseService);
 
@@ -61,11 +62,11 @@
 
             House.prototype.setPTs = function (areas) {
                 this.consolidatedAreas = areas;
-            }
+            };
             
             House.prototype.setCardImages = function (cards) {
                 this.cards = cards;
-            }
+            };
 
             return House;
         })();
