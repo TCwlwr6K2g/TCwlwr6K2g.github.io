@@ -6,12 +6,12 @@
     angular.module('app').controller('MainController', MainController);
 
     MainController.$inject = ['$scope', '$window', '$timeout',
-        'ConfigurationService', 'MapService',
+        'ConfigurationService', 'MapService', 'DeckService',
         'HouseService', 'TrackService', 'TrackTokenService',
         'GarrisonsService', 'OrdersService', 'UnitsService', 'TracksService', 'PTsService', 'CardsService', 'MarkersService'];
 
     function MainController($scope, $window, $timeout,
-        Configuration, Map,
+        Configuration, Map, Deck,
         House, Track, TrackToken,
         Garrisons, Orders, Units, Tracks, PTs, Cards, Markers) {
 
@@ -54,9 +54,31 @@
                 f: new Track('Fiefdoms', vm.trackTokens.vsb),
                 kc: new Track('King\'s Court', vm.trackTokens.raven)
             };
+            
+            vm.decks = {
+                deck1: new Deck('Westeros Deck I'),
+                deck2: new Deck('Westeros Deck II'),
+                deck3: new Deck('Westeros Deck III'),
+                deckW: new Deck('Wildling Deck')
+            };
         }
 
         function initializeWatchers() {
+            
+            angular.forEach(vm.decks, function(deck) {
+                $scope.$watch(
+                    function () { return deck.cardsImages; },
+                    function () {
+                        deck.setCardImages(Cards.parse(deck.cardsImages));
+                        updateHash();
+                    });
+                $scope.$watch(
+                    function () { return deck.cardsTracking; },
+                    function () {
+                        updateHash();
+                    }, true);
+            });
+            
             angular.forEach(vm.houses, function (house) {
                 $scope.$watch(
                     function () { return house.unitsText; },

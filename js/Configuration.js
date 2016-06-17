@@ -19,6 +19,11 @@
                 vm.tracks.f.token.isUsed = conf.vsbUsed === 'checked';
                 vm.tracks.kc.token.isUsed = conf.ravenUsed === 'checked';
 
+                angular.forEach(conf.decks, function (deck, key) {
+                    vm.decks[key].cardsImages = conf.decks[key].cardsImages;
+                    vm.decks[key].cardsTracking = conf.decks[key].cardsTracking;
+                });
+
                 angular.forEach(vm.houses, function (house) {
                     vm.houses[house._name].unitsText = conf.units[house._name];
                     vm.houses[house._name].ordersText = conf.orders[house._name];
@@ -52,6 +57,12 @@
                 if (vm.tracks.kc.token.isUsed) {
                     conf.ravenUsed = 'checked';
                 }
+
+                conf.decks = vm.decks || {};
+
+                angular.forEach(vm.decks, function (deck, key) {
+                    conf.decks[key] = deck;
+                });
 
                 conf.units = {};
                 conf.orders = {};
