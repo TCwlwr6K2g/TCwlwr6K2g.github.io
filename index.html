@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>AGot 2ed - BETA</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="extension.css">
+
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.3.0/lodash.min.js"></script>
+    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+    <script type="text/javascript" src="js/Base64.js"></script>
+    <script type='text/javascript' src="js/LZString.js"></script>
+
+    <script type='text/javascript' src="js/app.js"></script>
+    
+    <script type='text/javascript' src="js/Map.js"></script>
+    <script type='text/javascript' src="js/Configuration.js"></script>
+    <script type='text/javascript' src="js/MainController.js"></script>
+
+    <script type='text/javascript' src="js/Deck.js"></script>
+
+    <script type='text/javascript' src="js/House.js"></script>
+    <script type='text/javascript' src="js/Track.js"></script>
+    <script type='text/javascript' src="js/TrackToken.js"></script>
+
+    <script type='text/javascript' src="js/Garrisons.js"></script>
+    <script type='text/javascript' src="js/Orders.js"></script>
+    <script type='text/javascript' src="js/Units.js"></script>
+    <script type='text/javascript' src="js/Tracks.js"></script>
+    <script type='text/javascript' src="js/PTs.js"></script>
+    <script type='text/javascript' src="js/Cards.js"></script>
+    <script type='text/javascript' src="js/Markers.js"></script>
+
+</head>
+
+<body ng-app="app" ng-controller="MainController as vm">
+
+    <div class="controls">
+        <ul class="interfaceControls">
+            <li>
+                <label for="toggleUnits">Show/Hide Units on Board</label>
+            </li>
+            <li>
+                <label for="toggleOrders">Show/Hide Orders on Board</label>
+            </li>
+            <li>
+                <label for="togglePowertokens">Show/Hide Powertokens on Board</label>
+            </li>
+            <li id="shortLink"><a ng-href="{{vm.shortLink}}" target="_blank" class="cursor-only">{{vm.shortLink}}</a></li>
+        </ul>
+
+        <ul class="nav">
+            <li>
+                <label for="utils">Utilities [BETA]</label>
+            </li>
+            <li>
+                <label for="tracks">Influence Tracks/Supply/…</label>
+            </li>
+            <li ng-repeat="(key, deck) in vm.decks">
+                <label for="{{key}}Stuff">{{deck.name}}</label>
+            <li>
+            <li ng-repeat="(key, house) in vm.houses">
+                <label for="{{key}}Stuff">{{house.name}}: Settings</label>
+            </li>
+        </ul>
+
+        <input type="radio" name="navContentControl" id="utils" />
+        <div class="navContent">
+            
+            <div>
+                <h2>Action Phase</h3>
+                <button ng-click="vm.cleanRaids()">Clean Raids</button>
+                <button ng-click="vm.cleanCombat()">Clean Combat</button>
+                <button ng-click="vm.resolveCPs()">Resolve CPs</button>
+                <button ng-click="vm.cleanCPs()">Clean CPs</button>
+            </div>
+            
+            <div>
+                <h2>Westeros Phase</h3>
+                <div>
+                    <h3>Deck I</h3>
+                    <button ng-click="vm.updateSupply()">Supply</button>
+                </div>
+                <div>
+                    <h3>Deck II</h3>
+                    <button ng-click="vm.gameOfThrones()">Game of Thrones</button>
+                </div>
+                <div class="deck3">
+                    <h3>Deck III</h3>
+                    <select ng-options="card as (card.name + ': ' + card.description) for (name, card) in vm.deck3cards" ng-model="vm.deck3effectCard">
+                    </select>
+                </div>
+            </div>
+            
+            <div>
+                <h2>General</h3>
+                <button ng-click="vm.updateVictory()">Update Victory Track</button>
+                <button ng-click="vm.validateOrders()">Validate Orders</button>
+                <button ng-click="vm.validateUnits()">Validate Units</button>
+            </div>
+            
+            
+        </div>
+
+        <input type="radio" name="navContentControl" id="tracks" />
+        <div class="navContent">
+
+            <label class="fullwidth" ng-repeat="track in vm.tracks">
+                {{track.name}} Order:
+                <textarea ng-model="track.positionsText"></textarea>
+            </label>
+
+            <label class="fullwidth">
+                Supply:
+                <textarea name="supply" ng-model="vm.supplyText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Victory:
+                <textarea name="victory" ng-model="vm.victoryText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Garrisons:
+                <textarea name="garrisons" ng-model="vm.garrisonsText"></textarea>
+            </label>
+            <label class="fullwidth">
+                Wildlings:
+                <input type="number" ng-model="vm.wildlingPower" step="2" min="0" max="12" value="2" name="wildlings" />
+            </label>
+            <label class="fullwidth">
+                Round:
+                <input type="number" ng-model="vm.round" step="1" min="1" max="10" value="1" name="round" />
+            </label>
+
+            <label class="fullwidth">
+                {{vm.trackTokens.vsb.name}} was used:
+                <input type="checkbox" name="vsb-used" ng-model="vm.trackTokens.vsb.isUsed" />
+            </label>
+            <label class="fullwidth">
+                {{vm.trackTokens.raven.name}} was used:
+                <input type="checkbox" name="raven-used" ng-model="vm.trackTokens.raven.isUsed" />
+            </label>
+
+            <label class="fullwidth" ng-repeat="(key, house) in vm.houses">
+                {{house.name}} House Cards:
+                <textarea name="housecards-{{house._name}}" ng-model="house.cardsImages"></textarea>
+            </label>
+            
+            <label class="fullwidth">
+                House Cards Style:
+                <input type="text" ng-model="vm.houseCardsStyle" />
+            </label>
+            
+        </div>
+
+        <div ng-repeat="(key, deck) in vm.decks">
+            <input type="radio" name="navContentControl" id="{{key}}Stuff" />
+            <div class="navContent">
+                <label class="fullwidth">
+                    {{deck.name}} Cards:
+                    <textarea name="housecards-{{key}}" ng-model="deck.cardsImages"></textarea>
+                </label>
+                <span ng-repeat="(index, card) in deck.cards track by $index">
+                    <input type="checkbox" name="housecard-{{index}}-{{key}}" id="housecard-{{index}}-{{key}}" ng-model="deck.cardsTracking[index]" />
+                    <label for="housecard-{{index}}-{{key}}">
+                        <img ng-src="{{card}}" style="{{vm.houseCardsStyle}}" />
+                    </label>
+                </span>
+                <div>
+                    <button ng-click="deck.getBGGRoll()">Get BGG Roll</button>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="(key, house) in vm.houses">
+            <input type="radio" name="navContentControl" id="{{house._name}}Stuff" />
+            <div class="navContent">
+                <label class="fullwidth">
+                    Units:
+                    <textarea name="units-{{house._name}}" ng-model="house.unitsText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Orders:
+                    <textarea name="orders-{{house._name}}" ng-model="house.ordersText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Powertokens in Areas:
+                    <textarea name="powertokens-{{house._name}}" ng-model="house.ptsText"></textarea>
+                </label>
+                <label class="fullwidth">
+                    Available Power Tokens:
+                    <input name="availablePowertokens-{{house._name}}" ng-model="house.ownedPowerTokens" type="number" min="0" max="20" step="1"
+                    value="5" />
+                </label>
+                <span ng-repeat="(index, card) in house.cards">
+                    <input type="checkbox" name="housecard-{{index}}-{{house._name}}" id="housecard-{{index}}-{{house._name}}" ng-model="house.cardsTracking[index]" />
+                    <label for="housecard-{{index}}-{{house._name}}">
+                        <img ng-src="{{card}}" style="{{vm.houseCardsStyle}}" />
+                    </label>
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Should be inside div.board -->
+
+    <div class="board">
+        <div class="tokenCounts-{{key}} powertoken-{{key}} noselect" ng-repeat="(key, house) in vm.houses">
+            <div class="availablePowertokens noselect" ng-click="house.spendPowerToken()" title="Click to spend Power Tokens">{{house.ownedPowerTokens}}</div><div class="leftPowertokens noselect" ng-click="house.gainPowerToken(1)" title="Click to gain Power Tokens">{{house.leftPowertokens()}}</div>
+        </div>
+        <div ng-repeat="(key, track) in vm.tracks">
+            <div ng-repeat="(index, house) in track.positions track by $index">
+                <div class="pos-{{track.token.className}}-{{index+1}} token-{{house}}">
+                </div>
+            </div>
+        </div>
+        
+        <input type="checkbox" id="toggleUnits" ng-model="vm.showUnits" />
+        <input type="checkbox" id="toggleOrders" ng-model="vm.showOrders" />
+        <input type="checkbox" id="togglePowertokens" ng-model="vm.showPowerTokens" />
+
+        <div class="wildlingmarker pos-wilding-{{vm.wildlingPower}}" ng-click="vm.increaseWildlingPower()"></div>
+        <div class="round pos-round-{{vm.round}}" ng-click="vm.increaseRound()"></div>
+
+        <div class="supply-{{houseName}} pos-supply-{{count}}" ng-repeat="(houseName, count) in vm.supply"></div>
+        <div class="victory-{{houseName}} pos-victory-{{count}}" ng-repeat="(houseName, count) in vm.victory"></div>
+
+        <div class="{{vm.showUnits?'':'hide-units'}} {{vm.showOrders?'':'hide-orders'}} {{vm.showPowerTokens?'':'hide-pts'}}">
+            <div ng-repeat-start="(key, house) in vm.houses"></div>
+            <div class="{{unit.unit}}-{{house._name}} pos-{{unit.area}} unit" ng-repeat="unit in house.units track by $index">
+                </div>
+                <div class="order-{{order.order}} pos-{{order.area}}" ng-repeat="order in house.orders track by $index">
+                </div>
+                <div class="powertoken-{{house._name}} pos-{{area}}" ng-repeat="area in house.consolidatedAreas track by $index">
+                </div>
+            <div ng-repeat-end=""></div>
+        </div>
+
+        <div class="garrison pos-{{garrison.area}}" data-value="{{garrison.str}}" ng-repeat="garrison in vm.garrisons"></div>
+
+        <div class="{{key}}-token {{token.isUsed ? 'used' : ''}}"
+             ng-click="token.invert()"
+             ng-repeat="(key, token) in vm.trackTokens"></div>
+
+    </div>
+
+</body>
+
+</html>
