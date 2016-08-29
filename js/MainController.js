@@ -69,7 +69,7 @@
                 $scope.$watch(
                     function () { return deck.cardsImages; },
                     function () {
-                        deck.setCardImages(Cards.parse(deck.cardsImages));
+                        deck.setCards(Cards.parse(deck.cardsImages));
                         updateHash();
                     });
                 $scope.$watch(

@@ -162,13 +162,15 @@
                     {{deck.name}} Cards:
                     <textarea name="housecards-{{key}}" ng-model="deck.cardsImages"></textarea>
                 </label>
-                {{deck.cardsImages}}
                 <span ng-repeat="(index, card) in deck.cards track by $index">
                     <input type="checkbox" name="housecard-{{index}}-{{key}}" id="housecard-{{index}}-{{key}}" ng-model="deck.cardsTracking[index]" />
                     <label for="housecard-{{index}}-{{key}}">
                         <img ng-src="{{card}}" style="{{vm.houseCardsStyle}}" />
                     </label>
                 </span>
+                <div>
+                    <button ng-click="deck.getBGGRoll()">Get BGG Roll</button>
+                </div>
             </div>
         </div>
 
