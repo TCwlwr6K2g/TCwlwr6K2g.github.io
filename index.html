@@ -139,6 +139,12 @@
                 {{vm.trackTokens.raven.name}} was used:
                 <input type="checkbox" name="raven-used" ng-model="vm.trackTokens.raven.isUsed" />
             </label>
+            
+            <label class="fullwidth">
+                Greywater Watch location:
+                <input type="radio" name="gw-location" value="fenn-deceit" ng-model="" >
+                <label for="fenn-deceit">Fenn Deceit</label>
+            </label>
 
             <label class="fullwidth" ng-repeat="(key, house) in vm.houses">
                 {{house.name}} House Cards:
