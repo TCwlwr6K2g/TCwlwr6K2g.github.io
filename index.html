@@ -130,7 +130,16 @@
                 Round:
                 <input type="number" ng-model="vm.round" step="1" min="1" max="10" value="1" name="round" />
             </label>
-
+            <label class="fullwidth">
+                Greywater Watch location:
+                <input type="radio" name="gw-location" value="fenn-deceit" ng-model="vm.greywater">
+                <label for="fenn-deceit">Fenn Deceit &nbsp</label> 
+                <input type="radio" name="gw-location" value="the-muskegs" ng-model="vm.greywater">
+                <label for="the-muskegs">The Muskegs &nbsp</label>
+                <input type="radio" name="gw-location" value="honey-fungus-flush" ng-model="vm.greywater">
+                <label for="honey-fungus-flush">Honey Fungus Flush &nbsp</label>
+            </label>
+            
             <label class="fullwidth">
                 {{vm.trackTokens.vsb.name}} was used:
                 <input type="checkbox" name="vsb-used" ng-model="vm.trackTokens.vsb.isUsed" />
@@ -138,16 +147,6 @@
             <label class="fullwidth">
                 {{vm.trackTokens.raven.name}} was used:
                 <input type="checkbox" name="raven-used" ng-model="vm.trackTokens.raven.isUsed" />
-            </label>
-            
-            <label class="fullwidth">
-                Greywater Watch location:
-                <input type="radio" name="gw-location" value="fenn-deceit">
-                <label for="fenn-deceit">Fenn Deceit &nbsp</label> 
-                <input type="radio" name="gw-location" value="the-muskegs">
-                <label for="the-muskegs">The Muskegs &nbsp</label>
-                <input type="radio" name="gw-location" value="honey-fungus-flush">
-                <label for="honey-fungus-flush">Honey Fungus Flush &nbsp</label>
             </label>
 
             <label class="fullwidth" ng-repeat="(key, house) in vm.houses">
