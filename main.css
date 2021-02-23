@@ -49,6 +49,7 @@ q:before, q:after { content: ""; content: none; }
 
 .wildlingmarker,
 .round,
+.greywater-marker,
 
 .token-lannister,
 .token-stark,
@@ -232,6 +233,10 @@ q:before, q:after { content: ""; content: none; }
 }
 .round {
     background: url(images/turn-marker.png) no-repeat;
+    background-size: contain;
+}
+.greywater-marker {
+    background: url(images/greywater-watch.png) no-repeat;
     background-size: contain;
 }
 
