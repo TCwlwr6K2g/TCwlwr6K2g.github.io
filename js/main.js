@@ -20,6 +20,8 @@ var $board = $('.board'),
         htmlString += '<div class="wildlingmarker pos-wilding-' + conf.wildlings + '"></div>';
         // round token
         htmlString += '<div class="round pos-round-' + conf.round + '"></div>';
+	//Greywater Watch location
+	htmlString += '<div class="greywater pos-greywater-' + conf.greywater + '"></div>';
         // Influence Tracks
         // Iron Throne
         value = conf.ironThroneOrder.split('\n');
@@ -133,6 +135,7 @@ var $board = $('.board'),
         var conf = {
             "wildlings": $('[name="wildlings"]').val(),
             "round": $('[name="round"]').val(),
+	    "greywater": $('[name="greywater"]').val(),	
             "ironThroneOrder": $('[name="ironThroneOrder"]').val(),
             "fiefdomOrder": $('[name="fiefdomOrder"]').val(),
             "kingsCourtOrder": $('[name="kingsCourtOrder"]').val(),
@@ -251,6 +254,7 @@ var $board = $('.board'),
     setConf = function (conf) {
         $('[name="wildlings"]').val(conf.wildlings);
         $('[name="round"]').val(conf.round);
+	$('[name="greywater"]').val(conf.greywater);    
         $('[name="ironThroneOrder"]').val(conf.ironThroneOrder);
         $('[name="fiefdomOrder"]').val(conf.fiefdomOrder);
         $('[name="kingsCourtOrder"]').val(conf.kingsCourtOrder);
