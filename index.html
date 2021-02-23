@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>AGoT 2ed</title>
+    <title>AGot 2ed - BETA</title>
 
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" type="text/css" href="extension.css">
@@ -19,7 +19,7 @@
     <script type='text/javascript' src="js/Map.js"></script>
     <script type='text/javascript' src="js/Configuration.js"></script>
     <script type='text/javascript' src="js/MainController.js"></script>
-
+    
     <script type='text/javascript' src="js/Deck.js"></script>
 
     <script type='text/javascript' src="js/House.js"></script>
@@ -59,9 +59,6 @@
             <li>
                 <label for="tracks">Influence Tracks/Supply/…</label>
             </li>
-            <li ng-repeat="(key, deck) in vm.decks">
-                <label for="{{key}}Stuff">{{deck.name}}</label>
-            <li>
             <li ng-repeat="(key, house) in vm.houses">
                 <label for="{{key}}Stuff">{{house.name}}: Settings</label>
             </li>
@@ -153,25 +150,6 @@
                 <input type="text" ng-model="vm.houseCardsStyle" />
             </label>
             
-        </div>
-
-        <div ng-repeat="(key, deck) in vm.decks">
-            <input type="radio" name="navContentControl" id="{{key}}Stuff" />
-            <div class="navContent">
-                <label class="fullwidth">
-                    {{deck.name}} Cards:
-                    <textarea name="housecards-{{key}}" ng-model="deck.cardsImages"></textarea>
-                </label>
-                <span ng-repeat="(index, card) in deck.cards track by $index">
-                    <input type="checkbox" name="housecard-{{index}}-{{key}}" id="housecard-{{index}}-{{key}}" ng-model="deck.cardsTracking[index]" />
-                    <label for="housecard-{{index}}-{{key}}">
-                        <img ng-src="{{card}}" style="{{vm.houseCardsStyle}}" />
-                    </label>
-                </span>
-                <div>
-                    <button ng-click="deck.getBGGRoll()">Get BGG Roll</button>
-                </div>
-            </div>
         </div>
 
         <div ng-repeat="(key, house) in vm.houses">
