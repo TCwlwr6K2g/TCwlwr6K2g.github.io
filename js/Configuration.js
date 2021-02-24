@@ -7,6 +7,7 @@
             setVMFromConf: function (vm, conf) {
                 vm.wildlingPower = parseInt(conf.wildlings);
                 vm.round = parseInt(conf.round);
+                vm.greywater = parseInt(conf.greywater);
 
                 vm.tracks.it.positionsText = conf.ironThroneOrder;
                 vm.tracks.f.positionsText = conf.fiefdomOrder;
@@ -40,7 +41,8 @@
                 var conf = {
                     wildlings: vm.wildlingPower,
                     round: vm.round,
-
+                    greywater: vm.greywater,
+                    
                     ironThroneOrder: vm.tracks.it.positionsText,
                     fiefdomOrder: vm.tracks.f.positionsText,
                     kingsCourtOrder: vm.tracks.kc.positionsText,
