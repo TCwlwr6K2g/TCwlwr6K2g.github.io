@@ -232,7 +232,7 @@ q:before, q:after { content: ""; content: none; }
     background-position: -682px 0;
 }
 .round {
-    background: url(images/turn-marker.png) no-repeat;
+    background: url(images/greywater-watch.png) no-repeat;
     background-size: contain;
 }
 .greywater {
