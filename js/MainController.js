@@ -22,6 +22,7 @@
         vm.showPowerTokens = true;
 
         vm.round = 1;
+        vm.greywater = "fenn-deceit";
         vm.wildlingPower = 2;
         vm.garrisons = [];
 
@@ -163,6 +164,12 @@
                     updateHash();
                 });
                 
+            $scope.$watch(
+                function () { return vm.greywater; },
+                function () {
+                    updateHash();
+                });
+            
             $scope.$watch(
                 function () { return vm.trackTokens.vsb.isUsed; },
                 function () {
