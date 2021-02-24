@@ -22,7 +22,7 @@
         vm.showPowerTokens = true;
 
         vm.round = 1;
-        vm.greywater = "fenn-deceit";
+        vm.greywater = 1;
         vm.wildlingPower = 2;
         vm.garrisons = [];
 
