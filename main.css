@@ -49,7 +49,7 @@ q:before, q:after { content: ""; content: none; }
 
 .wildlingmarker,
 .round,
-.greywater-marker,
+.greywater,
 
 .token-lannister,
 .token-stark,
@@ -235,7 +235,7 @@ q:before, q:after { content: ""; content: none; }
     background: url(images/turn-marker.png) no-repeat;
     background-size: contain;
 }
-.greywater-marker {
+.greywater {
     background: url(images/greywater-watch.png) no-repeat;
     background-size: contain;
 }
@@ -605,6 +605,18 @@ q:before, q:after { content: ""; content: none; }
 .pos-round-10 {
     left: 83%;
     top: 70.5%;
+}
+.pos-greywater-1 {
+    left: 25%;
+    top: 97%;
+}
+.pos-greywater-2 {
+    left: 50%;
+    top: 97%;
+}
+.pos-greywater-3 {
+    left: 75%;
+    top: 97%;
 }
 .pos-victory-1 ~ .pos-victory-1,
 .pos-victory-2 ~ .pos-victory-2,
